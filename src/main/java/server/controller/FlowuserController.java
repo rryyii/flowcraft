@@ -4,13 +4,16 @@ import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.dto.FlowuserDTO;
+import server.model.Flowuser;
 import server.service.FlowuserService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("flowuser")
-class FlowuserController {
+public class FlowuserController {
 
-    private FlowuserService flowuserService;
+    private final FlowuserService flowuserService;
 
     public FlowuserController(FlowuserService flowuserService) {
         this.flowuserService = flowuserService;
@@ -25,4 +28,14 @@ class FlowuserController {
         }
         return ResponseEntity.badRequest().build();
     }
+
+    @GetMapping("/flowusers")
+    public ResponseEntity<List<Flowuser>> getFlowusers() {
+        List<Flowuser> users = flowuserService.getFlowusers();
+        if (users != null) {
+            return ResponseEntity.status(200).body(users);
+        }
+        return ResponseEntity.status(400).build();
+    }
+
 }

@@ -7,13 +7,15 @@ import server.dto.FlowuserDTO;
 import server.model.Flowuser;
 import server.repository.FlowuserRepository;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class FlowuserService {
 
     private static final Logger flowuserLogger = LoggerFactory.getLogger(FlowuserService.class);
-    private FlowuserRepository flowuserRepository;
+    private final FlowuserRepository flowuserRepository;
 
     public FlowuserService(FlowuserRepository flowuserRepository) {
         this.flowuserRepository = flowuserRepository;
@@ -31,6 +33,14 @@ public class FlowuserService {
         } catch (Exception e) {
             flowuserLogger.error("Failed to create a new flowuser.");
             return false;
+        }
+    }
+
+    public List<Flowuser> getFlowusers() {
+        try {
+            return flowuserRepository.findAll();
+        } catch (Exception e) {
+            return null;
         }
     }
 }
