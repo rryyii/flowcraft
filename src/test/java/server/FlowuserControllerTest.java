@@ -49,6 +49,16 @@ public class FlowuserControllerTest {
     }
 
     @Test
+    void deleteFlowuser() throws Exception {
+
+    }
+
+    @Test
+    void deleteFlowuserError() throws Exception {
+
+    }
+
+    @Test
     void getFlowusers() throws Exception {
         mockMvc.perform(get("/flowuser/flowusers"))
                 .andExpect(status().is(200));

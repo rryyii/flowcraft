@@ -29,6 +29,26 @@ public class FlowuserController {
         return ResponseEntity.badRequest().build();
     }
 
+    @DeleteMapping("/deleteFlowuser/{id}")
+    public ResponseEntity<String> deleteFlowuser(@PathVariable Long id) {
+        if (id > 0) {
+            if (flowuserService.deleteFlowuser(id)) {
+                return ResponseEntity.status(200).build();
+            }
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @PutMapping("/updateFlowuser/{id}")
+    public ResponseEntity<String> updateFlowuser(@PathVariable Long id, @RequestParam String details) {
+        if (id > 0 && (details != null)) {
+            if (flowuserService.updateFlowuser(id, details)) {
+                return ResponseEntity.status(200).build();
+            }
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
     @GetMapping("/flowusers")
     public ResponseEntity<List<Flowuser>> getFlowusers() {
         List<Flowuser> users = flowuserService.getFlowusers();

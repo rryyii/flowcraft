@@ -36,6 +36,46 @@ public class FlowuserService {
         }
     }
 
+    public boolean deleteFlowuser(Long id) {
+        try {
+            flowuserRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            flowuserLogger.error("Failed to delete a flowuser.");
+            return false;
+        }
+    }
+
+    public boolean updateFlowuser(Long id, String details) {
+        try {
+            if (flowuserRepository.findById(id).isPresent()) {
+                Flowuser user = flowuserRepository.findById(id).get();
+                return switch (details) {
+                    case "class" -> {
+                        String p = "d";
+                        yield true;
+                    }
+                    case "role" -> {
+                        String d = "";
+                        yield true;
+                    }
+                    case "username" -> {
+                        String t = "s";
+                        yield true;
+                    }
+                    case "team" -> {
+                        String p = "t";
+                        yield true;
+                    }
+                    default -> false;
+                };
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public List<Flowuser> getFlowusers() {
         try {
             return flowuserRepository.findAll();
