@@ -3,14 +3,15 @@ package server.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
 @Table(name="flowuser")
-public class Flowuser {
+public class FlowUser {
 
-    public Flowuser() {
+    public FlowUser() {
 
     }
 
@@ -20,8 +21,14 @@ public class Flowuser {
 
     @Column
     private String username;
-    private Date dateJoined;
+    private LocalDate dateJoined;
     private String mainRole;
     private String mainClass;
+
+    @ManyToOne
+    private FlowTeam mainTeam;
+
+    @OneToMany
+    private List<FlowUser> altUsers;
 
 }

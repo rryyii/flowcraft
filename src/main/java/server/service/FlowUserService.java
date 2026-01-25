@@ -3,27 +3,26 @@ package server.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import server.dto.FlowuserDTO;
-import server.model.Flowuser;
-import server.repository.FlowuserRepository;
+import server.dto.FlowUserDTO;
+import server.model.FlowUser;
+import server.repository.FlowUserRepository;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Service
-public class FlowuserService {
+public class FlowUserService {
 
-    private static final Logger flowuserLogger = LoggerFactory.getLogger(FlowuserService.class);
-    private final FlowuserRepository flowuserRepository;
+    private static final Logger flowuserLogger = LoggerFactory.getLogger(FlowUserService.class);
+    private final FlowUserRepository flowuserRepository;
 
-    public FlowuserService(FlowuserRepository flowuserRepository) {
+    public FlowUserService(FlowUserRepository flowuserRepository) {
         this.flowuserRepository = flowuserRepository;
     }
 
-    public boolean createFlowuser(FlowuserDTO details) {
+    public boolean createFlowuser(FlowUserDTO details) {
         try {
-            Flowuser newUser =  new Flowuser();
+            FlowUser newUser =  new FlowUser();
             newUser.setUsername(details.getUsername());
             newUser.setDateJoined(new Date());
             newUser.setMainRole(details.getCurrentRole());
@@ -49,22 +48,26 @@ public class FlowuserService {
     public boolean updateFlowuser(Long id, String details) {
         try {
             if (flowuserRepository.findById(id).isPresent()) {
-                Flowuser user = flowuserRepository.findById(id).get();
+                FlowUser user = flowuserRepository.findById(id).get();
                 return switch (details) {
                     case "class" -> {
                         String p = "d";
+                        user.setMainClass("hold");
                         yield true;
                     }
                     case "role" -> {
                         String d = "";
+                        user.setMainRole("hold");
                         yield true;
                     }
                     case "username" -> {
                         String t = "s";
+                        user.setUsername("hold");
                         yield true;
                     }
                     case "team" -> {
                         String p = "t";
+                        user.setMainRole("hold");
                         yield true;
                     }
                     default -> false;
@@ -72,14 +75,16 @@ public class FlowuserService {
             }
             return true;
         } catch (Exception e) {
+            flowuserLogger.error("Failed to update/edit the flowuser's information");
             return false;
         }
     }
 
-    public List<Flowuser> getFlowusers() {
+    public List<FlowUser> getFlowusers() {
         try {
             return flowuserRepository.findAll();
         } catch (Exception e) {
+            flowuserLogger.error("Failed to retrieve all Flowusers");
             return null;
         }
     }

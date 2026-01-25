@@ -8,16 +8,16 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import server.controller.FlowuserController;
-import server.dto.FlowuserDTO;
-import server.service.FlowuserService;
+import server.controller.FlowUserController;
+import server.dto.FlowUserDTO;
+import server.service.FlowUserService;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(FlowuserController.class)
+@WebMvcTest(FlowUserController.class)
 @AutoConfigureMockMvc
-public class FlowuserControllerTest {
+public class FlowUserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -26,11 +26,11 @@ public class FlowuserControllerTest {
     private ObjectMapper objectMapper;
 
     @MockitoBean
-    private FlowuserService flowuserService;
+    private FlowUserService flowuserService;
 
     @Test
     void createFlowuser() throws Exception {
-        FlowuserDTO info = new FlowuserDTO();
+        FlowUserDTO info = new FlowUserDTO();
         info.setUsername("Waruia");
         info.setCurrentClass("Warrior");
         info.setCurrentRole("DPS");
