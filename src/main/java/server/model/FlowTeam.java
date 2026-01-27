@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-@Table(name="flow-team")
+@Table(name="flowteam")
 public class FlowTeam {
 
     public FlowTeam() {

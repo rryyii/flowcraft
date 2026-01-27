@@ -7,7 +7,7 @@ import server.dto.FlowUserDTO;
 import server.model.FlowUser;
 import server.repository.FlowUserRepository;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -24,7 +24,7 @@ public class FlowUserService {
         try {
             FlowUser newUser =  new FlowUser();
             newUser.setUsername(details.getUsername());
-            newUser.setDateJoined(new Date());
+            newUser.setDateJoined(LocalDate.now());
             newUser.setMainRole(details.getCurrentRole());
             newUser.setMainClass(details.getCurrentClass());
             flowuserRepository.save(newUser);
@@ -51,23 +51,19 @@ public class FlowUserService {
                 FlowUser user = flowuserRepository.findById(id).get();
                 return switch (details) {
                     case "class" -> {
-                        String p = "d";
                         user.setMainClass("hold");
                         yield true;
                     }
                     case "role" -> {
-                        String d = "";
                         user.setMainRole("hold");
                         yield true;
                     }
                     case "username" -> {
-                        String t = "s";
                         user.setUsername("hold");
                         yield true;
                     }
                     case "team" -> {
-                        String p = "t";
-                        user.setMainRole("hold");
+                        user.setMainTeam(null);
                         yield true;
                     }
                     default -> false;

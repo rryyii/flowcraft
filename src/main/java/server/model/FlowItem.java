@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name="flow-item")
+@Table(name="flowitem")
 public class FlowItem {
 
     public FlowItem() {
