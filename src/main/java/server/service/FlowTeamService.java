@@ -7,6 +7,8 @@ import server.dto.FlowTeamCreateDTO;
 import server.model.FlowTeam;
 import server.repository.FlowTeamRepository;
 
+import java.time.LocalDate;
+
 @Service
 public class FlowTeamService {
 
@@ -19,6 +21,11 @@ public class FlowTeamService {
 
     public boolean createFlowTeam(FlowTeamCreateDTO details) {
         try {
+            FlowTeam newTeam = new FlowTeam();
+            newTeam.setTeamName(details.getTeamName());
+            newTeam.setDateCreated(LocalDate.now());
+            newTeam.setCurrentItem(null);
+            flowTeamRepository.save(newTeam);
             return true;
         } catch (Exception e) {
             flowteamLogger.error("Failed to create a new FlowTeam");
@@ -28,6 +35,7 @@ public class FlowTeamService {
 
     public boolean deleteFlowTeam(Long id) {
         try {
+            flowTeamRepository.deleteById(id);
             return true;
         } catch (Exception e) {
             flowteamLogger.error("Failed to delete FlowTeam");
@@ -37,7 +45,7 @@ public class FlowTeamService {
 
     public FlowTeam getFlowTeam(Long id) {
         try {
-            return null;
+            return flowTeamRepository.getReferenceById(id);
         } catch (Exception e) {
             flowteamLogger.error("Failed to fetch FlowTeam according to Id");
             return null;

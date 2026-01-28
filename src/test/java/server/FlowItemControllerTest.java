@@ -7,9 +7,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebM
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import server.controller.FlowItemController;
+import server.model.FlowItem;
+import server.service.FlowItemService;
 import server.service.FlowUserService;
 
-@WebMvcTest
+@WebMvcTest(FlowItemController.class)
 @AutoConfigureMockMvc
 public class FlowItemControllerTest {
 
@@ -20,6 +23,6 @@ public class FlowItemControllerTest {
     private ObjectMapper objectMapper;
 
     @MockitoBean
-    private FlowUserService flowuserService;
+    private FlowItemService flowitemService;
 
 }

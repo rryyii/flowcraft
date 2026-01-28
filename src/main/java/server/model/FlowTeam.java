@@ -1,18 +1,17 @@
 package server.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name="flowteam")
 public class FlowTeam {
-
-    public FlowTeam() {
-
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

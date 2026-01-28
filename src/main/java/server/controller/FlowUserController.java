@@ -1,5 +1,7 @@
 package server.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.dto.FlowUserDTO;
@@ -13,10 +15,12 @@ import java.util.List;
 public class FlowUserController {
 
     private final FlowUserService flowuserService;
+    private static final Logger logger = LoggerFactory.getLogger(FlowUserController.class);
 
     public FlowUserController(FlowUserService flowuserService) {
         this.flowuserService = flowuserService;
     }
+
 
     @PostMapping("/createFlowuser")
     public ResponseEntity<String> createFlowuser(@RequestBody FlowUserDTO newUser) {
@@ -25,7 +29,7 @@ public class FlowUserController {
                 return ResponseEntity.status(200).build();
             }
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.badRequest().body("Failed to create FlowUser");
     }
 
     @DeleteMapping("/deleteFlowuser/{id}")

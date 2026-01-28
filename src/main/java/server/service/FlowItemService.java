@@ -8,6 +8,8 @@ import server.model.FlowItem;
 import server.model.Status;
 import server.repository.FlowItemRepository;
 
+import java.time.Instant;
+
 @Service
 public class FlowItemService {
 
@@ -20,6 +22,14 @@ public class FlowItemService {
 
     public boolean createFlowItem(FlowItemDTO details) {
         try {
+            FlowItem newItem = new FlowItem();
+            newItem.setCreatedTimestamp(Instant.now());
+            newItem.setName(details.getName());
+            newItem.setDeadline(details.getDeadline());
+            newItem.setTeam(details.getTeam());
+            newItem.setDescription(details.getDescription());
+            newItem.setStatus(Status.NEW);
+            flowItemRepository.save(newItem);
             return true;
         } catch (Exception e) {
             flowitemLogger.error("Failed to create a new FlowItem");
@@ -29,6 +39,7 @@ public class FlowItemService {
 
     public boolean deleteFlowItem(Long id) {
         try {
+            flowItemRepository.deleteById(id);
             return true;
         } catch (Exception e) {
             flowitemLogger.error("Failed to delete FlowItem at given Id");
@@ -47,7 +58,7 @@ public class FlowItemService {
 
     public FlowItem getFlowItem(Long id) {
         try {
-            return null;
+            return flowItemRepository.getReferenceById(id);
         } catch (Exception e) {
             flowitemLogger.error("Failed to get FlowItem at given Id");
             return null;
