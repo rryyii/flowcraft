@@ -6,6 +6,6 @@ import lombok.Data;
 public class FlowUserDTO {
     private Long id;
     private String username;
-    private String currentRole;
-    private String currentClass;
+    private String mainRole;
+    private String mainClass;
 }

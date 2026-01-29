@@ -12,6 +12,8 @@ import server.controller.FlowUserController;
 import server.dto.FlowUserDTO;
 import server.service.FlowUserService;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -32,8 +34,12 @@ public class FlowUserControllerTest {
     void createFlowuser() throws Exception {
         FlowUserDTO info = new FlowUserDTO();
         info.setUsername("Waruia");
-        info.setCurrentClass("Warrior");
-        info.setCurrentRole("DPS");
+        info.setMainClass("Warrior");
+        info.setMainRole("DPS");
+
+        when(flowuserService.createFlowuser(any()))
+                .thenReturn(true);
+
         mockMvc.perform(post("/flowuser/createFlowuser")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(info)))

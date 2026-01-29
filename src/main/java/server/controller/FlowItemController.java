@@ -19,20 +19,16 @@ public class FlowItemController {
 
     @PostMapping("/createFlowItem")
     public ResponseEntity<String> createFlowItem(@RequestBody FlowItemDTO details) {
-        if (details != null) {
-            if (flowItemService.createFlowItem(details)) {
-                return ResponseEntity.status(200).build();
-            }
-         }
+        if (flowItemService.createFlowItem(details)) {
+            return ResponseEntity.status(200).build();
+        }
         return ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/changeFlowItemStatus")
     public ResponseEntity<String> changeFlowItemStatus(@RequestBody Status details) {
-        if (details != null) {
-            if (flowItemService.changeFlowItemStatus(details)) {
-                return ResponseEntity.status(200).build();
-            }
+        if (flowItemService.changeFlowItemStatus(details)) {
+            return ResponseEntity.status(200).build();
         }
         return ResponseEntity.badRequest().build();
     }

@@ -12,6 +12,8 @@ import server.controller.FlowTeamController;
 import server.dto.FlowTeamCreateDTO;
 import server.service.FlowTeamService;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -32,10 +34,24 @@ public class FlowTeamControllerTest {
     public void createFlowTeam() throws Exception {
         FlowTeamCreateDTO details = new FlowTeamCreateDTO();
         details.setTeamName("Test Team");
+
+        when(flowteamService.createFlowTeam(any()))
+                .thenReturn(true);
+
         mockMvc.perform(post("/flowteam/createFlowTeam")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(details)))
                 .andExpect(status().is(200));
+    }
+
+    @Test
+    public void deleteFlowTeamById() throws Exception {
+
+    }
+
+    @Test
+    public void getFlowTeamById() throws Exception {
+
     }
 
 }

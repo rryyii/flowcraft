@@ -19,10 +19,8 @@ public class FlowTeamController {
 
     @PostMapping("/createFlowTeam")
     public ResponseEntity<String> createFlowTeam(@RequestBody FlowTeamCreateDTO details) {
-        if (details != null) {
-            if (flowTeamService.createFlowTeam(details)) {
-                return ResponseEntity.status(200).build();
-            }
+        if (flowTeamService.createFlowTeam(details)) {
+            return ResponseEntity.status(200).build();
         }
         return ResponseEntity.badRequest().build();
     }

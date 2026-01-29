@@ -11,7 +11,7 @@ import server.service.FlowUserService;
 import java.util.List;
 
 @RestController
-@RequestMapping("flowuser")
+@RequestMapping("/flowuser")
 public class FlowUserController {
 
     private final FlowUserService flowuserService;
@@ -24,10 +24,8 @@ public class FlowUserController {
 
     @PostMapping("/createFlowuser")
     public ResponseEntity<String> createFlowuser(@RequestBody FlowUserDTO newUser) {
-        if (newUser != null) {
-            if (flowuserService.createFlowuser(newUser)) {
-                return ResponseEntity.status(200).build();
-            }
+        if (flowuserService.createFlowuser(newUser)) {
+            return ResponseEntity.status(200).build();
         }
         return ResponseEntity.badRequest().body("Failed to create FlowUser");
     }

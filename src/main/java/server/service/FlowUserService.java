@@ -25,8 +25,8 @@ public class FlowUserService {
             FlowUser newUser =  new FlowUser();
             newUser.setUsername(details.getUsername());
             newUser.setDateJoined(LocalDate.now());
-            newUser.setMainRole(details.getCurrentRole());
-            newUser.setMainClass(details.getCurrentClass());
+            newUser.setMainRole(details.getMainRole());
+            newUser.setMainClass(details.getMainClass());
             flowuserRepository.save(newUser);
             return true;
         } catch (Exception e) {
