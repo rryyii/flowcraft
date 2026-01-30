@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,6 +23,6 @@ public class FlowTeam {
     private LocalDate dateCreated;
 
     @OneToMany
-    private FlowItem currentItem;
+    private List<FlowItem> items;
 
 }

@@ -52,18 +52,22 @@ public class FlowUserService {
                 return switch (details) {
                     case "class" -> {
                         user.setMainClass("hold");
+                        flowuserRepository.save(user);
                         yield true;
                     }
                     case "role" -> {
                         user.setMainRole("hold");
+                        flowuserRepository.save(user);
                         yield true;
                     }
                     case "username" -> {
                         user.setUsername("hold");
+                        flowuserRepository.save(user);
                         yield true;
                     }
                     case "team" -> {
                         user.setMainTeam(null);
+                        flowuserRepository.save(user);
                         yield true;
                     }
                     default -> false;

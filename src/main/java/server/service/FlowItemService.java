@@ -4,6 +4,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 import server.dto.FlowItemDTO;
+import server.dto.FlowStatusDTO;
 import server.model.FlowItem;
 import server.model.Status;
 import server.repository.FlowItemRepository;
@@ -14,7 +15,7 @@ import java.time.Instant;
 public class FlowItemService {
 
     private static final Logger flowitemLogger = LoggerFactory.getLogger(FlowItemService.class);
-    private FlowItemRepository flowItemRepository;
+    private final FlowItemRepository flowItemRepository;
 
     public FlowItemService(FlowItemRepository flowItemRepository) {
         this.flowItemRepository = flowItemRepository;
@@ -47,9 +48,28 @@ public class FlowItemService {
         }
     }
 
-    public boolean changeFlowItemStatus(Status details) {
+    public boolean changeFlowItemStatus(FlowStatusDTO details) {
         try {
-            return true;
+            FlowItem item = getFlowItem(details.getId());
+            return switch (details.getCurrentStatus()) {
+                case NEW -> {
+                    item.setStatus(handleStatus(Status.NEW, details.getNextStatus()));
+                    yield true;
+                }
+                case IN_PROGRESS -> {
+                    item.setStatus(handleStatus(Status.IN_PROGRESS, details.getNextStatus()));
+                    yield true;
+                }
+                case COMPLETED -> {
+                    item.setStatus(handleStatus(Status.COMPLETED, details.getNextStatus()));
+                    yield true;
+                }
+                case CANCELLED -> {
+                    item.setStatus(handleStatus(Status.CANCELLED, details.getNextStatus()));
+                    yield true;
+                }
+                default -> false;
+            };
         } catch (Exception e) {
             flowitemLogger.error("Failed to change FlowItem status");
             return false;
@@ -63,6 +83,10 @@ public class FlowItemService {
             flowitemLogger.error("Failed to get FlowItem at given Id");
             return null;
         }
+    }
+
+    private Status handleStatus(Status current, Status next) {
+        return null;
     }
 
 

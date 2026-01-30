@@ -8,12 +8,13 @@ import server.model.FlowTeam;
 import server.repository.FlowTeamRepository;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 @Service
 public class FlowTeamService {
 
     private static final Logger flowteamLogger = LoggerFactory.getLogger(FlowTeamService.class);
-    private FlowTeamRepository flowTeamRepository;
+    private final FlowTeamRepository flowTeamRepository;
 
     public FlowTeamService(FlowTeamRepository flowTeamRepository) {
         this.flowTeamRepository = flowTeamRepository;
@@ -24,7 +25,7 @@ public class FlowTeamService {
             FlowTeam newTeam = new FlowTeam();
             newTeam.setTeamName(details.getTeamName());
             newTeam.setDateCreated(LocalDate.now());
-            newTeam.setCurrentItem(null);
+            newTeam.setItems(new ArrayList<>());
             flowTeamRepository.save(newTeam);
             return true;
         } catch (Exception e) {

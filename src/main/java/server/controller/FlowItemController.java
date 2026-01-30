@@ -3,6 +3,7 @@ package server.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.dto.FlowItemDTO;
+import server.dto.FlowStatusDTO;
 import server.model.FlowItem;
 import server.model.Status;
 import server.service.FlowItemService;
@@ -26,7 +27,7 @@ public class FlowItemController {
     }
 
     @PutMapping("/changeFlowItemStatus")
-    public ResponseEntity<String> changeFlowItemStatus(@RequestBody Status details) {
+    public ResponseEntity<String> changeFlowItemStatus(@RequestBody FlowStatusDTO details) {
         if (flowItemService.changeFlowItemStatus(details)) {
             return ResponseEntity.status(200).build();
         }
