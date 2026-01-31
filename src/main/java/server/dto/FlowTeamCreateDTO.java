@@ -1,9 +1,14 @@
 package server.dto;
 
-import lombok.Data;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class FlowTeamCreateDTO {
     private Long id;
+
+    @NotBlank(message = "A new Flowteam must have a name")
     private String teamName;
 }

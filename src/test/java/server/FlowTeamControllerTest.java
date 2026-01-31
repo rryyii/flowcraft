@@ -41,7 +41,7 @@ public class FlowTeamControllerTest {
         mockMvc.perform(post("/flowteam/createFlowTeam")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(details)))
-                .andExpect(status().is(200));
+                .andExpect(status().is(201));
     }
 
     @Test

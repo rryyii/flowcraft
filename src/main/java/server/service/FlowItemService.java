@@ -54,18 +54,22 @@ public class FlowItemService {
             return switch (details.getCurrentStatus()) {
                 case NEW -> {
                     item.setStatus(handleStatus(Status.NEW, details.getNextStatus()));
+                    flowItemRepository.save(item);
                     yield true;
                 }
                 case IN_PROGRESS -> {
                     item.setStatus(handleStatus(Status.IN_PROGRESS, details.getNextStatus()));
+                    flowItemRepository.save(item);
                     yield true;
                 }
                 case COMPLETED -> {
                     item.setStatus(handleStatus(Status.COMPLETED, details.getNextStatus()));
+                    flowItemRepository.save(item);
                     yield true;
                 }
                 case CANCELLED -> {
                     item.setStatus(handleStatus(Status.CANCELLED, details.getNextStatus()));
+                    flowItemRepository.save(item);
                     yield true;
                 }
                 default -> false;
@@ -86,6 +90,18 @@ public class FlowItemService {
     }
 
     private Status handleStatus(Status current, Status next) {
+        if (current == Status.IN_PROGRESS && next == Status.COMPLETED) {
+            return Status.COMPLETED;
+        }
+        if (current == Status.IN_PROGRESS && next == Status.CANCELLED) {
+            return Status.CANCELLED;
+        }
+        if (current == Status.NEW && next == Status.IN_PROGRESS) {
+            return Status.IN_PROGRESS;
+        }
+        if (current == Status.NEW && next == Status.CANCELLED) {
+            return Status.CANCELLED;
+        }
         return null;
     }
 

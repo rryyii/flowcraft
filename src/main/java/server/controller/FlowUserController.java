@@ -1,5 +1,8 @@
 package server.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -23,29 +26,25 @@ public class FlowUserController {
 
 
     @PostMapping("/createFlowuser")
-    public ResponseEntity<String> createFlowuser(@RequestBody FlowUserDTO newUser) {
+    public ResponseEntity<String> createFlowuser(@Valid @RequestBody FlowUserDTO newUser) {
         if (flowuserService.createFlowuser(newUser)) {
-            return ResponseEntity.status(200).build();
+            return ResponseEntity.status(201).build();
         }
         return ResponseEntity.badRequest().body("Failed to create FlowUser");
     }
 
     @DeleteMapping("/deleteFlowuser/{id}")
-    public ResponseEntity<String> deleteFlowuser(@PathVariable Long id) {
-        if (id > 0) {
-            if (flowuserService.deleteFlowuser(id)) {
-                return ResponseEntity.status(200).build();
-            }
+    public ResponseEntity<String> deleteFlowuser(@Positive @PathVariable Long id) {
+        if (flowuserService.deleteFlowuser(id)) {
+            return ResponseEntity.status(200).build();
         }
         return ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/updateFlowuser/{id}")
-    public ResponseEntity<String> updateFlowuser(@PathVariable Long id, @RequestParam String details) {
-        if (id > 0 && (details != null)) {
-            if (flowuserService.updateFlowuser(id, details)) {
-                return ResponseEntity.status(200).build();
-            }
+    public ResponseEntity<String> updateFlowuser(@Positive @PathVariable Long id, @NotBlank @RequestParam String details) {
+        if (flowuserService.updateFlowuser(id, details)) {
+            return ResponseEntity.status(200).build();
         }
         return ResponseEntity.badRequest().build();
     }
@@ -56,7 +55,7 @@ public class FlowUserController {
         if (users != null) {
             return ResponseEntity.status(200).body(users);
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.status(404).build();
     }
 
 }

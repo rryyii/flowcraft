@@ -43,7 +43,7 @@ public class FlowUserControllerTest {
         mockMvc.perform(post("/flowuser/createFlowuser")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(info)))
-                .andExpect(status().is(200));
+                .andExpect(status().is(201));
     }
 
     @Test
