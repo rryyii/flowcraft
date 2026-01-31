@@ -25,7 +25,7 @@ public class FlowUserController {
     }
 
 
-    @PostMapping("/createFlowuser")
+    @PostMapping
     public ResponseEntity<String> createFlowuser(@Valid @RequestBody FlowUserDTO newUser) {
         if (flowuserService.createFlowuser(newUser)) {
             return ResponseEntity.status(201).build();
@@ -33,7 +33,7 @@ public class FlowUserController {
         return ResponseEntity.badRequest().body("Failed to create FlowUser");
     }
 
-    @DeleteMapping("/deleteFlowuser/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteFlowuser(@Positive @PathVariable Long id) {
         if (flowuserService.deleteFlowuser(id)) {
             return ResponseEntity.status(200).build();
@@ -41,7 +41,7 @@ public class FlowUserController {
         return ResponseEntity.badRequest().build();
     }
 
-    @PutMapping("/updateFlowuser/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<String> updateFlowuser(@Positive @PathVariable Long id, @NotBlank @RequestParam String details) {
         if (flowuserService.updateFlowuser(id, details)) {
             return ResponseEntity.status(200).build();
@@ -49,7 +49,7 @@ public class FlowUserController {
         return ResponseEntity.badRequest().build();
     }
 
-    @GetMapping("/flowusers")
+    @GetMapping
     public ResponseEntity<List<FlowUser>> getFlowusers() {
         List<FlowUser> users = flowuserService.getFlowusers();
         if (users != null) {

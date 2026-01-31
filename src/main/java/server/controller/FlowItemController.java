@@ -20,7 +20,7 @@ public class FlowItemController {
         this.flowItemService = flowItemService;
     }
 
-    @PostMapping("/createFlowItem")
+    @PostMapping("/")
     public ResponseEntity<String> createFlowItem(@Valid @RequestBody FlowItemDTO details) {
         if (flowItemService.createFlowItem(details)) {
             return ResponseEntity.status(201).build();
@@ -28,7 +28,7 @@ public class FlowItemController {
         return ResponseEntity.badRequest().build();
     }
 
-    @PutMapping("/changeFlowItemStatus")
+    @PutMapping("/")
     public ResponseEntity<String> changeFlowItemStatus(@Valid @RequestBody FlowStatusDTO details) {
         if (flowItemService.changeFlowItemStatus(details)) {
             return ResponseEntity.status(200).build();
@@ -36,7 +36,7 @@ public class FlowItemController {
         return ResponseEntity.badRequest().build();
     }
 
-    @GetMapping("/getFlowItem/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<FlowItem> getFlowItem(@Positive @PathVariable Long id) {
         FlowItem item = flowItemService.getFlowItem(id);
         if (item != null) {
@@ -45,7 +45,7 @@ public class FlowItemController {
         return ResponseEntity.status(404).build();
     }
 
-    @DeleteMapping("/deleteFlowItem/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteFlowItem(@Positive @PathVariable Long id) {
         if (flowItemService.deleteFlowItem(id)) {
             return ResponseEntity.status(200).build();

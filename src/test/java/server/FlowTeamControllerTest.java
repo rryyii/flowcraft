@@ -38,7 +38,7 @@ public class FlowTeamControllerTest {
         when(flowteamService.createFlowTeam(any()))
                 .thenReturn(true);
 
-        mockMvc.perform(post("/flowteam/createFlowTeam")
+        mockMvc.perform(post("/flowteam")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(details)))
                 .andExpect(status().is(201));

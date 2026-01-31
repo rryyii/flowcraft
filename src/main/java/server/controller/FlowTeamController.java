@@ -10,7 +10,7 @@ import server.model.FlowTeam;
 import server.service.FlowTeamService;
 
 @RestController
-@RequestMapping("flowteam")
+@RequestMapping("/flowteam")
 public class FlowTeamController {
 
     private final FlowTeamService flowTeamService;
@@ -19,7 +19,7 @@ public class FlowTeamController {
         this.flowTeamService = flowTeamService;
     }
 
-    @PostMapping("/createFlowTeam")
+    @PostMapping
     public ResponseEntity<String> createFlowTeam(@Valid @RequestBody FlowTeamCreateDTO details) {
         if (flowTeamService.createFlowTeam(details)) {
             return ResponseEntity.status(201).build();
@@ -27,7 +27,7 @@ public class FlowTeamController {
         return ResponseEntity.badRequest().build();
     }
 
-    @PutMapping("/deleteFlowTeam/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<String> deleteFlowTeam(@Positive @PathVariable Long id) {
         if (flowTeamService.deleteFlowTeam(id)) {
             return ResponseEntity.status(200).build();
@@ -35,7 +35,7 @@ public class FlowTeamController {
         return ResponseEntity.badRequest().build();
     }
 
-    @GetMapping("/getFlowTeam/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<FlowTeam> getFlowTeam(@Positive @PathVariable Long id) {
         FlowTeam team = flowTeamService.getFlowTeam(id);
         if (team != null) {

@@ -38,7 +38,7 @@ public class FlowItemControllerTest {
         when(flowitemService.createFlowItem(any()))
                 .thenReturn(true);
 
-        mockMvc.perform(post("/flowitem/createFlowItem")
+        mockMvc.perform(post("/flowitem")
                         .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(details)))
                 .andExpect(status().is(201));

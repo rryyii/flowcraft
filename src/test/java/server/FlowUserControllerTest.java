@@ -40,7 +40,7 @@ public class FlowUserControllerTest {
         when(flowuserService.createFlowuser(any()))
                 .thenReturn(true);
 
-        mockMvc.perform(post("/flowuser/createFlowuser")
+        mockMvc.perform(post("/flowuser")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(info)))
                 .andExpect(status().is(201));
@@ -48,7 +48,7 @@ public class FlowUserControllerTest {
 
     @Test
     void createFlowuserError() throws Exception {
-        mockMvc.perform(post("/flowuser/createFlowuser")
+        mockMvc.perform(post("/flowuser")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(null)))
                 .andExpect(status().is(400));
@@ -66,7 +66,7 @@ public class FlowUserControllerTest {
 
     @Test
     void getFlowusers() throws Exception {
-        mockMvc.perform(get("/flowuser/flowusers"))
+        mockMvc.perform(get("/flowuser"))
                 .andExpect(status().is(200));
     }
 
