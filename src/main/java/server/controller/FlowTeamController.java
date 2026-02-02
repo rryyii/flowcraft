@@ -6,8 +6,11 @@ import jakarta.validation.constraints.Positive;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.dto.FlowTeamCreateDTO;
+import server.model.FlowItem;
 import server.model.FlowTeam;
 import server.service.FlowTeamService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/flowteam")
@@ -40,6 +43,15 @@ public class FlowTeamController {
         FlowTeam team = flowTeamService.getFlowTeam(id);
         if (team != null) {
             return ResponseEntity.status(200).body(team);
+        }
+        return ResponseEntity.status(404).build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<List<FlowItem>> getFlowTeamItems(@RequestParam boolean active, @Positive @PathVariable Long id) {
+        if (active) {
+            List<FlowItem> items = flowTeamService.getFlowTeamItems(id);
+            return ResponseEntity.status(200).body(items);
         }
         return ResponseEntity.status(404).build();
     }

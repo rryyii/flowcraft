@@ -51,24 +51,19 @@ public class FlowItemService {
     public boolean changeFlowItemStatus(FlowStatusDTO details) {
         try {
             FlowItem item = getFlowItem(details.getId());
-            return switch (details.getCurrentStatus()) {
+            return switch (details.getStatus()) {
                 case NEW -> {
-                    item.setStatus(handleStatus(Status.NEW, details.getNextStatus()));
+                    item.setStatus(handleStatus(Status.NEW));
                     flowItemRepository.save(item);
                     yield true;
                 }
                 case IN_PROGRESS -> {
-                    item.setStatus(handleStatus(Status.IN_PROGRESS, details.getNextStatus()));
-                    flowItemRepository.save(item);
-                    yield true;
-                }
-                case COMPLETED -> {
-                    item.setStatus(handleStatus(Status.COMPLETED, details.getNextStatus()));
+                    item.setStatus(handleStatus(Status.IN_PROGRESS));
                     flowItemRepository.save(item);
                     yield true;
                 }
                 case CANCELLED -> {
-                    item.setStatus(handleStatus(Status.CANCELLED, details.getNextStatus()));
+                    item.setStatus(Status.CANCELLED);
                     flowItemRepository.save(item);
                     yield true;
                 }
@@ -89,22 +84,15 @@ public class FlowItemService {
         }
     }
 
-    private Status handleStatus(Status current, Status next) {
-        if (current == Status.IN_PROGRESS && next == Status.COMPLETED) {
+    private Status handleStatus(Status current) {
+        if (current == Status.IN_PROGRESS) {
             return Status.COMPLETED;
         }
-        if (current == Status.IN_PROGRESS && next == Status.CANCELLED) {
-            return Status.CANCELLED;
-        }
-        if (current == Status.NEW && next == Status.IN_PROGRESS) {
+        if (current == Status.NEW) {
             return Status.IN_PROGRESS;
-        }
-        if (current == Status.NEW && next == Status.CANCELLED) {
-            return Status.CANCELLED;
         }
         return null;
     }
-
 
 
 }

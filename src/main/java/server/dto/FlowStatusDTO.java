@@ -8,6 +8,5 @@ import server.model.Status;
 @Setter
 public class FlowStatusDTO {
     private Long id;
-    private Status currentStatus;
-    private Status nextStatus;
+    private Status status;
 }

@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import server.dto.FlowUserDTO;
+import server.dto.FlowUserUpdateDTO;
 import server.model.FlowUser;
 import server.repository.FlowUserRepository;
 
@@ -45,33 +46,20 @@ public class FlowUserService {
         }
     }
 
-    public boolean updateFlowuser(Long id, String details) {
+    public boolean updateFlowuser(Long id, FlowUserUpdateDTO details) {
         try {
             if (flowuserRepository.findById(id).isPresent()) {
                 FlowUser user = flowuserRepository.findById(id).get();
-                return switch (details) {
-                    case "class" -> {
-                        user.setMainClass("hold");
-                        flowuserRepository.save(user);
-                        yield true;
-                    }
-                    case "role" -> {
-                        user.setMainRole("hold");
-                        flowuserRepository.save(user);
-                        yield true;
-                    }
-                    case "username" -> {
-                        user.setUsername("hold");
-                        flowuserRepository.save(user);
-                        yield true;
-                    }
-                    case "team" -> {
-                        user.setMainTeam(null);
-                        flowuserRepository.save(user);
-                        yield true;
-                    }
-                    default -> false;
-                };
+                if (!details.getMainRole().isEmpty()) {
+                    user.setMainRole(details.getMainRole());
+                }
+                if (!details.getUsername().isEmpty()) {
+                    user.setUsername(details.getUsername());
+                }
+                if (!details.getMainClass().isEmpty()) {
+                    user.setMainClass(details.getMainClass());
+                }
+                flowuserRepository.save(user);
             }
             return true;
         } catch (Exception e) {

@@ -4,11 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import server.dto.FlowTeamCreateDTO;
+import server.model.FlowItem;
 import server.model.FlowTeam;
 import server.repository.FlowTeamRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class FlowTeamService {
@@ -49,6 +51,15 @@ public class FlowTeamService {
             return flowTeamRepository.getReferenceById(id);
         } catch (Exception e) {
             flowteamLogger.error("Failed to fetch FlowTeam according to Id");
+            return null;
+        }
+    }
+
+    public List<FlowItem> getFlowTeamItems(Long id) {
+        try {
+            return flowTeamRepository.getReferenceById(id).getItems();
+        } catch (Exception e) {
+            flowteamLogger.error("Failed to fetch all FlowTeam's Flowitems");
             return null;
         }
     }

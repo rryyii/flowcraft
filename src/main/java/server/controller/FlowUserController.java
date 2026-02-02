@@ -1,13 +1,14 @@
 package server.controller;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.dto.FlowUserDTO;
+import server.dto.FlowUserUpdateDTO;
 import server.model.FlowUser;
 import server.service.FlowUserService;
 
@@ -42,7 +43,7 @@ public class FlowUserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateFlowuser(@Positive @PathVariable Long id, @NotBlank @RequestParam String details) {
+    public ResponseEntity<String> updateFlowuser(@Positive @PathVariable Long id, @NotNull @RequestParam FlowUserUpdateDTO details) {
         if (flowuserService.updateFlowuser(id, details)) {
             return ResponseEntity.status(200).build();
         }

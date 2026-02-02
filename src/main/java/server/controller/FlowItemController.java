@@ -20,7 +20,7 @@ public class FlowItemController {
         this.flowItemService = flowItemService;
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<String> createFlowItem(@Valid @RequestBody FlowItemDTO details) {
         if (flowItemService.createFlowItem(details)) {
             return ResponseEntity.status(201).build();
@@ -28,7 +28,7 @@ public class FlowItemController {
         return ResponseEntity.badRequest().build();
     }
 
-    @PutMapping("/")
+    @PutMapping
     public ResponseEntity<String> changeFlowItemStatus(@Valid @RequestBody FlowStatusDTO details) {
         if (flowItemService.changeFlowItemStatus(details)) {
             return ResponseEntity.status(200).build();
