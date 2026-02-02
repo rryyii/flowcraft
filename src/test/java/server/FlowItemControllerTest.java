@@ -10,12 +10,16 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import server.controller.FlowItemController;
 import server.dto.FlowItemDTO;
+import server.dto.FlowStatusDTO;
+import server.model.FlowItem;
+import server.model.FlowTeam;
 import server.service.FlowItemService;
+
+import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(FlowItemController.class)
@@ -34,6 +38,9 @@ public class FlowItemControllerTest {
     @Test
     public void createFlowItem() throws Exception {
         FlowItemDTO details = new FlowItemDTO();
+        details.setDeadline(LocalDateTime.now());
+        details.setTeam(new FlowTeam());
+        details.setName("test");
 
         when(flowitemService.createFlowItem(any()))
                 .thenReturn(true);
@@ -46,17 +53,36 @@ public class FlowItemControllerTest {
 
     @Test
     public void changeFlowItemStatus() throws Exception {
+        FlowStatusDTO info = new FlowStatusDTO();
+        when(flowitemService.changeFlowItemStatus(any()))
+                .thenReturn(true);
 
+        mockMvc.perform(put("/flowitem")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(info)))
+                .andExpect(status().is(200));
     }
 
 
     @Test
     public void deleteFlowItemById() throws Exception {
+        when(flowitemService.deleteFlowItem(1L))
+                .thenReturn(true);
 
+        mockMvc.perform(delete("/flowitem/{id}", 1L))
+                .andExpect(status().is(200));
     }
 
     @Test
     public void getFlowItemById() throws Exception {
+        FlowItem item = new FlowItem();
+        item.setId(1L);
+
+        when(flowitemService.getFlowItem(1L))
+                .thenReturn(item);
+
+        mockMvc.perform(get("/flowitem/{id}", 1L))
+                .andExpect(status().is(200));
     }
 
 

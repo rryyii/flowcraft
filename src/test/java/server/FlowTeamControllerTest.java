@@ -10,11 +10,12 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import server.controller.FlowTeamController;
 import server.dto.FlowTeamCreateDTO;
+import server.model.FlowTeam;
 import server.service.FlowTeamService;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(FlowTeamController.class)
@@ -46,12 +47,23 @@ public class FlowTeamControllerTest {
 
     @Test
     public void deleteFlowTeamById() throws Exception {
+        when(flowteamService.deleteFlowTeam(1L))
+                .thenReturn(true);
 
+        mockMvc.perform(delete("/flowteam/{id}", 1L))
+                .andExpect(status().is(200));
     }
 
     @Test
     public void getFlowTeamById() throws Exception {
+        FlowTeam team = new FlowTeam();
+        team.setId(1L);
 
+        when(flowteamService.getFlowTeam(1L))
+                .thenReturn(team);
+
+        mockMvc.perform(get("/flowteam/{id}/{activate}", 1L, true))
+                .andExpect(status().is(200));
     }
 
 }

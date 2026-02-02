@@ -30,7 +30,7 @@ public class FlowTeamController {
         return ResponseEntity.badRequest().build();
     }
 
-    @PutMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteFlowTeam(@Positive @PathVariable Long id) {
         if (flowTeamService.deleteFlowTeam(id)) {
             return ResponseEntity.status(200).build();
@@ -47,8 +47,8 @@ public class FlowTeamController {
         return ResponseEntity.status(404).build();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<FlowItem>> getFlowTeamItems(@RequestParam boolean active, @Positive @PathVariable Long id) {
+    @GetMapping("/{id}/{active}")
+    public ResponseEntity<List<FlowItem>> getFlowTeamItems(@PathVariable boolean active, @Positive @PathVariable Long id) {
         if (active) {
             List<FlowItem> items = flowTeamService.getFlowTeamItems(id);
             return ResponseEntity.status(200).body(items);

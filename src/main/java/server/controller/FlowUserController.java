@@ -39,7 +39,7 @@ public class FlowUserController {
         if (flowuserService.deleteFlowuser(id)) {
             return ResponseEntity.status(200).build();
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.status(404).build();
     }
 
     @PutMapping("/{id}")

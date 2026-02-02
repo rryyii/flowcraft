@@ -56,12 +56,20 @@ public class FlowUserControllerTest {
 
     @Test
     void deleteFlowuser() throws Exception {
+        when(flowuserService.deleteFlowuser(1L))
+                .thenReturn(true);
 
+        mockMvc.perform(delete("/flowuser/{id}", 1L))
+                .andExpect(status().is(200));
     }
 
     @Test
     void deleteFlowuserError() throws Exception {
+        when (flowuserService.deleteFlowuser(1L))
+                .thenReturn(true);
 
+        mockMvc.perform(delete("/flowuser/{id}", 2L))
+                .andExpect(status().is(404));
     }
 
     @Test
