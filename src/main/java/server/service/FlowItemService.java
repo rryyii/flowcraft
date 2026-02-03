@@ -5,31 +5,27 @@ import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 import server.dto.FlowItemDTO;
 import server.dto.FlowStatusDTO;
+import server.mapper.FlowItemMapper;
 import server.model.FlowItem;
 import server.model.Status;
 import server.repository.FlowItemRepository;
 
-import java.time.Instant;
 
 @Service
 public class FlowItemService {
 
     private static final Logger flowitemLogger = LoggerFactory.getLogger(FlowItemService.class);
     private final FlowItemRepository flowItemRepository;
+    private final FlowItemMapper flowItemMapper;
 
-    public FlowItemService(FlowItemRepository flowItemRepository) {
+    public FlowItemService(FlowItemRepository flowItemRepository, FlowItemMapper flowItemMapper) {
         this.flowItemRepository = flowItemRepository;
+        this.flowItemMapper = flowItemMapper;
     }
 
     public boolean createFlowItem(FlowItemDTO details) {
         try {
-            FlowItem newItem = new FlowItem();
-            newItem.setCreatedTimestamp(Instant.now());
-            newItem.setName(details.getName());
-            newItem.setDeadline(details.getDeadline());
-            newItem.setTeam(details.getTeam());
-            newItem.setDescription(details.getDescription());
-            newItem.setStatus(Status.NEW);
+            FlowItem newItem = flowItemMapper.toEntity(details);
             flowItemRepository.save(newItem);
             return true;
         } catch (Exception e) {

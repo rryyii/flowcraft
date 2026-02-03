@@ -1,5 +1,8 @@
 package server.model;
 
+import lombok.Getter;
+
+@Getter
 public enum Status {
     IN_PROGRESS("In Progress"),
     COMPLETED("Completed"),

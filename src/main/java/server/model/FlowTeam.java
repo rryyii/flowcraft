@@ -10,7 +10,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name="flowteam")
 public class FlowTeam {
 
@@ -24,5 +23,10 @@ public class FlowTeam {
 
     @OneToMany
     private List<FlowItem> items;
+
+    @PrePersist
+    protected void onCreate() {
+        dateCreated = LocalDate.now();
+    }
 
 }

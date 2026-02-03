@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @Entity
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name="flowitem")
 public class FlowItem {
 
@@ -28,5 +27,10 @@ public class FlowItem {
 
     @ManyToOne
     private FlowTeam team;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdTimestamp = Instant.now();
+    }
 
 }

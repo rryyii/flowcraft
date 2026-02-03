@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import server.dto.FlowTeamCreateDTO;
+import server.mapper.FlowTeamMapper;
 import server.model.FlowItem;
 import server.model.FlowTeam;
 import server.repository.FlowTeamRepository;
@@ -17,18 +18,16 @@ public class FlowTeamService {
 
     private static final Logger flowteamLogger = LoggerFactory.getLogger(FlowTeamService.class);
     private final FlowTeamRepository flowTeamRepository;
+    private final FlowTeamMapper flowTeamMapper;
 
-    public FlowTeamService(FlowTeamRepository flowTeamRepository) {
+    public FlowTeamService(FlowTeamRepository flowTeamRepository, FlowTeamMapper flowTeamMapper) {
         this.flowTeamRepository = flowTeamRepository;
+        this.flowTeamMapper = flowTeamMapper;
     }
 
     public boolean createFlowTeam(FlowTeamCreateDTO details) {
         try {
-            FlowTeam newTeam = new FlowTeam();
-            newTeam.setTeamName(details.getTeamName());
-            newTeam.setDateCreated(LocalDate.now());
-            newTeam.setItems(new ArrayList<>());
-            flowTeamRepository.save(newTeam);
+            flowTeamRepository.save(flowTeamMapper.toEntity(details));
             return true;
         } catch (Exception e) {
             flowteamLogger.error("Failed to create a new FlowTeam");

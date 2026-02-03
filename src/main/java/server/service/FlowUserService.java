@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import server.dto.FlowUserDTO;
 import server.dto.FlowUserUpdateDTO;
+import server.mapper.FlowUserMapper;
 import server.model.FlowUser;
 import server.repository.FlowUserRepository;
 
@@ -16,19 +17,16 @@ public class FlowUserService {
 
     private static final Logger flowuserLogger = LoggerFactory.getLogger(FlowUserService.class);
     private final FlowUserRepository flowuserRepository;
+    private final FlowUserMapper flowUserMapper;
 
-    public FlowUserService(FlowUserRepository flowuserRepository) {
+    public FlowUserService(FlowUserRepository flowuserRepository, FlowUserMapper flowUserMapper) {
         this.flowuserRepository = flowuserRepository;
+        this.flowUserMapper = flowUserMapper;
     }
 
     public boolean createFlowuser(FlowUserDTO details) {
         try {
-            FlowUser newUser =  new FlowUser();
-            newUser.setUsername(details.getUsername());
-            newUser.setDateJoined(LocalDate.now());
-            newUser.setMainRole(details.getMainRole());
-            newUser.setMainClass(details.getMainClass());
-            flowuserRepository.save(newUser);
+            flowuserRepository.save(flowUserMapper.toEntity(details));
             return true;
         } catch (Exception e) {
             flowuserLogger.error("Failed to create a new flowuser.");

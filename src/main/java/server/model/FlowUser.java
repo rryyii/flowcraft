@@ -10,7 +10,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name="flowuser")
 public class FlowUser {
 
@@ -28,7 +27,9 @@ public class FlowUser {
     @ManyToOne
     private FlowTeam mainTeam;
 
-    @OneToMany
-    private List<FlowUser> altUsers;
+    @PrePersist
+    protected void onCreate() {
+        this.dateJoined = LocalDate.now();
+    }
 
 }

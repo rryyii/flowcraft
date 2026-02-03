@@ -47,7 +47,6 @@ public class FlowUserController {
         if (flowuserService.updateFlowuser(id, details)) {
             return ResponseEntity.status(200).build();
         }
-        logger.error("fdsfdsfsdfd");
         return ResponseEntity.badRequest().build();
     }
 
