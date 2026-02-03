@@ -10,9 +10,11 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import server.controller.FlowUserController;
 import server.dto.FlowUserDTO;
+import server.dto.FlowUserUpdateDTO;
 import server.service.FlowUserService;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -52,6 +54,20 @@ public class FlowUserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(null)))
                 .andExpect(status().is(400));
+    }
+
+    @Test
+    void updateFlowuser() throws Exception {
+        FlowUserUpdateDTO details = new FlowUserUpdateDTO();
+        details.setUsername("new username");
+
+        when(flowuserService.updateFlowuser(eq(1L), any()))
+                .thenReturn(true);
+
+        mockMvc.perform(put("/flowuser/{id}", 1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(details)))
+                .andExpect(status().is(200));
     }
 
     @Test

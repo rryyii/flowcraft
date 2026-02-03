@@ -43,10 +43,11 @@ public class FlowUserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateFlowuser(@Positive @PathVariable Long id, @NotNull @RequestParam FlowUserUpdateDTO details) {
+    public ResponseEntity<String> updateFlowuser(@Positive @PathVariable Long id, @NotNull @RequestBody FlowUserUpdateDTO details) {
         if (flowuserService.updateFlowuser(id, details)) {
             return ResponseEntity.status(200).build();
         }
+        logger.error("fdsfdsfsdfd");
         return ResponseEntity.badRequest().build();
     }
 

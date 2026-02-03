@@ -50,13 +50,13 @@ public class FlowUserService {
         try {
             if (flowuserRepository.findById(id).isPresent()) {
                 FlowUser user = flowuserRepository.findById(id).get();
-                if (!details.getMainRole().isEmpty()) {
+                if (!(details.getMainRole() == null)) {
                     user.setMainRole(details.getMainRole());
                 }
-                if (!details.getUsername().isEmpty()) {
+                if (!(details.getUsername() == null)) {
                     user.setUsername(details.getUsername());
                 }
-                if (!details.getMainClass().isEmpty()) {
+                if (!(details.getMainClass() == null)) {
                     user.setMainClass(details.getMainClass());
                 }
                 flowuserRepository.save(user);
