@@ -9,9 +9,13 @@ import server.mapper.FlowUserMapper;
 import server.model.FlowUser;
 import server.repository.FlowUserRepository;
 
-import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Service responsible for managing FlowUser functionalities.
+ *
+ * Handles creation, updating, deletion, and fetching of FlowUsers.
+ */
 @Service
 public class FlowUserService {
 

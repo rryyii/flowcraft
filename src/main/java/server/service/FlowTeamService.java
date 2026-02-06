@@ -16,6 +16,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service responsible for managing FlowTeam functionalities.
+ *
+ * Handles creation, updating, deletion and removal of FlowUsers, and fetching of FlowTeams
+ * and any ownership of FlowItems.
+ */
 @Service
 public class FlowTeamService {
 

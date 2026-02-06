@@ -6,6 +6,9 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Data model for a FlowTeam with relevant properties through JPA.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

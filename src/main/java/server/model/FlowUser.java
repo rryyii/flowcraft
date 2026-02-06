@@ -6,6 +6,9 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Data model for a FlowUser with relevant properties through JPA.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

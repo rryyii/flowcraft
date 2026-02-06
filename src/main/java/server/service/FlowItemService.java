@@ -14,7 +14,11 @@ import server.model.Title;
 import server.repository.FlowItemRepository;
 import server.repository.FlowUserRepository;
 
-
+/**
+ * Service responsible for managing FlowItem functionalities.
+ *
+ * Handles creation, updating, deletion, and fetching of FlowItems
+ */
 @Service
 public class FlowItemService {
 

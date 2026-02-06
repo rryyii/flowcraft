@@ -6,6 +6,9 @@ import lombok.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 
+/**
+ * Data model for a FlowItem with relevant properties through JPA.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

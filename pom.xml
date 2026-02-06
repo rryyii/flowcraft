@@ -137,8 +137,6 @@
                 </compilerArgs>
             </configuration>
         </plugin>
-
-            <!-- spring-boot plugin is fine; no need to exclude lombok usually -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

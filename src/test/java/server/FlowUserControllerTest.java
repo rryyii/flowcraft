@@ -20,6 +20,9 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * Tests the return status codes of all FLowUser controller endpoints.
+ */
 @WebMvcTest(FlowUserController.class)
 @AutoConfigureMockMvc
 public class FlowUserControllerTest {

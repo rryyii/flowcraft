@@ -12,6 +12,12 @@ import server.model.FlowItem;
 import server.model.Status;
 import server.service.FlowItemService;
 
+/**
+ * Controller responsible for mapping endpoints for FlowItems.
+ *
+ * Handles basic validation and returns the corresponding ResponseEntity
+ * with status code and return body.
+ */
 @RestController
 @RequestMapping("flowitem")
 public class FlowItemController {

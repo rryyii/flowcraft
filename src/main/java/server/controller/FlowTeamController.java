@@ -13,6 +13,12 @@ import server.service.FlowTeamService;
 
 import java.util.List;
 
+/**
+ * Controller responsible for mapping endpoints for FlowTeams.
+ *
+ * Handles basic validation and returns the corresponding ResponseEntity
+ * with status code and return body.
+ */
 @RestController
 @RequestMapping("/flowteam")
 public class FlowTeamController {

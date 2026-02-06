@@ -15,6 +15,12 @@ import server.service.FlowUserService;
 
 import java.util.List;
 
+/**
+ * Controller responsible for mapping endpoints for FlowUsers.
+ *
+ * Handles basic validation and returns the corresponding ResponseEntity
+ * with status code and return body.
+ */
 @RestController
 @RequestMapping("/flowuser")
 public class FlowUserController {
