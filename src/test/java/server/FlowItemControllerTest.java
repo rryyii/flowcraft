@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -50,7 +51,7 @@ public class FlowItemControllerTest {
         mockMvc.perform(post("/flowitem")
                         .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(details)))
-                .andExpect(status().is(201));
+                .andExpect(status().is(HttpStatus.CREATED.value()));
     }
 
     @Test
@@ -62,7 +63,7 @@ public class FlowItemControllerTest {
         mockMvc.perform(put("/flowitem")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(info)))
-                .andExpect(status().is(200));
+                .andExpect(status().is(HttpStatus.OK.value()));
     }
 
     @Test
@@ -74,7 +75,7 @@ public class FlowItemControllerTest {
         mockMvc.perform(put("/flowitem/priority/{userId}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(info)))
-                .andExpect(status().is(200));
+                .andExpect(status().is(HttpStatus.OK.value()));
     }
 
 
@@ -84,7 +85,7 @@ public class FlowItemControllerTest {
                 .thenReturn(true);
 
         mockMvc.perform(delete("/flowitem/{id}/{userId}", 1L, 1L))
-                .andExpect(status().is(200));
+                .andExpect(status().is(HttpStatus.OK.value()));
     }
 
     @Test
@@ -96,7 +97,7 @@ public class FlowItemControllerTest {
                 .thenReturn(item);
 
         mockMvc.perform(get("/flowitem/{id}", 1L))
-                .andExpect(status().is(200));
+                .andExpect(status().is(HttpStatus.OK.value()));
     }
 
 

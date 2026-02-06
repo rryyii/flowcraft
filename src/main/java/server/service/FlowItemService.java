@@ -43,7 +43,9 @@ public class FlowItemService {
 
     public boolean deleteFlowItem(Long id, Long userId) {
         try {
-            FlowUser user = flowUserRepository.getReferenceById(userId);
+            FlowUser user = findFlowUser(userId);
+            if (user == null) return false;
+
             if (user.getTitle() == Title.MANAGER || user.getTitle() == Title.ADMIN) {
                 flowItemRepository.deleteById(id);
                 return true;
@@ -84,7 +86,9 @@ public class FlowItemService {
 
     public boolean changeFlowPriority(FlowPriorityDTO details, Long userId) {
         try {
-            FlowUser user = flowUserRepository.getReferenceById(userId);
+            FlowUser user = findFlowUser(userId);
+            if (user == null) return false;
+
             if (user.getTitle() == Title.MANAGER || user.getTitle() == Title.ADMIN) {
                 FlowItem item = getFlowItem(details.getId());
                 item.setPriority(details.getPriority());
@@ -100,7 +104,10 @@ public class FlowItemService {
 
     public FlowItem getFlowItem(Long id) {
         try {
-            return flowItemRepository.getReferenceById(id);
+            if (flowItemRepository.findById(id).isPresent()) {
+                return flowItemRepository.findById(id).get();
+            }
+            return null;
         } catch (Exception e) {
             flowitemLogger.error("Failed to get FlowItem at given Id");
             return null;
@@ -113,6 +120,13 @@ public class FlowItemService {
         }
         if (current == Status.NEW) {
             return Status.IN_PROGRESS;
+        }
+        return null;
+    }
+
+    private FlowUser findFlowUser(Long id) {
+        if (flowUserRepository.findById(id).isPresent()) {
+            return flowUserRepository.findById(id).get();
         }
         return null;
     }

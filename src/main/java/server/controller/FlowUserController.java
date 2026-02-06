@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.dto.FlowUserDTO;
@@ -29,7 +30,7 @@ public class FlowUserController {
     @PostMapping
     public ResponseEntity<String> createFlowuser(@Valid @RequestBody FlowUserDTO newUser) {
         if (flowuserService.createFlowuser(newUser)) {
-            return ResponseEntity.status(201).build();
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         }
         return ResponseEntity.badRequest().body("Failed to create FlowUser");
     }
@@ -37,15 +38,16 @@ public class FlowUserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteFlowuser(@Positive @PathVariable Long id) {
         if (flowuserService.deleteFlowuser(id)) {
-            return ResponseEntity.status(200).build();
+            return ResponseEntity.status(HttpStatus.OK).build();
         }
-        return ResponseEntity.status(404).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateFlowuser(@Positive @PathVariable Long id, @NotNull @RequestBody FlowUserUpdateDTO details) {
+    public ResponseEntity<String> updateFlowuser(@Positive @PathVariable Long id,
+                                                 @NotNull @RequestBody FlowUserUpdateDTO details) {
         if (flowuserService.updateFlowuser(id, details)) {
-            return ResponseEntity.status(200).build();
+            return ResponseEntity.status(HttpStatus.OK).build();
         }
         return ResponseEntity.badRequest().build();
     }
@@ -54,9 +56,9 @@ public class FlowUserController {
     public ResponseEntity<List<FlowUser>> getFlowusers() {
         List<FlowUser> users = flowuserService.getFlowusers();
         if (users != null) {
-            return ResponseEntity.status(200).body(users);
+            return ResponseEntity.status(HttpStatus.OK).body(users);
         }
-        return ResponseEntity.status(404).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
 }

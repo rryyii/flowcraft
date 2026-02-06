@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -45,7 +46,7 @@ public class FlowUserControllerTest {
         mockMvc.perform(post("/flowuser")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(info)))
-                .andExpect(status().is(201));
+                .andExpect(status().is(HttpStatus.CREATED.value()));
     }
 
     @Test
@@ -53,7 +54,7 @@ public class FlowUserControllerTest {
         mockMvc.perform(post("/flowuser")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(null)))
-                .andExpect(status().is(400));
+                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
     }
 
     @Test
@@ -67,7 +68,7 @@ public class FlowUserControllerTest {
         mockMvc.perform(put("/flowuser/{id}", 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(details)))
-                .andExpect(status().is(200));
+                .andExpect(status().is(HttpStatus.OK.value()));
     }
 
     @Test
@@ -76,7 +77,7 @@ public class FlowUserControllerTest {
                 .thenReturn(true);
 
         mockMvc.perform(delete("/flowuser/{id}", 1L))
-                .andExpect(status().is(200));
+                .andExpect(status().is(HttpStatus.OK.value()));
     }
 
     @Test
@@ -85,13 +86,13 @@ public class FlowUserControllerTest {
                 .thenReturn(true);
 
         mockMvc.perform(delete("/flowuser/{id}", 2L))
-                .andExpect(status().is(404));
+                .andExpect(status().is(HttpStatus.NOT_FOUND.value()));
     }
 
     @Test
     void getFlowusers() throws Exception {
         mockMvc.perform(get("/flowuser"))
-                .andExpect(status().is(200));
+                .andExpect(status().is(HttpStatus.OK.value()));
     }
 
 

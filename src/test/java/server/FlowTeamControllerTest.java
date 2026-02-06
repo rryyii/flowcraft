@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -42,7 +43,7 @@ public class FlowTeamControllerTest {
         mockMvc.perform(post("/flowteam")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(details)))
-                .andExpect(status().is(201));
+                .andExpect(status().is(HttpStatus.CREATED.value()));
     }
 
     @Test
@@ -51,7 +52,7 @@ public class FlowTeamControllerTest {
                 .thenReturn(true);
 
         mockMvc.perform(delete("/flowteam/{id}/{userId}", 1L, 1L))
-                .andExpect(status().is(200));
+                .andExpect(status().is(HttpStatus.OK.value()));
     }
 
     @Test
@@ -60,7 +61,7 @@ public class FlowTeamControllerTest {
                 .thenReturn(true);
 
         mockMvc.perform(delete("/flowteam/member/{id}/{userId}", 1L, 1L))
-                .andExpect(status().is(200));
+                .andExpect(status().is(HttpStatus.OK.value()));
     }
 
     @Test
@@ -72,13 +73,13 @@ public class FlowTeamControllerTest {
                 .thenReturn(team);
 
         mockMvc.perform(get("/flowteam/{id}", 1L, true))
-                .andExpect(status().is(200));
+                .andExpect(status().is(HttpStatus.OK.value()));
     }
 
     @Test
     public void getFlowTeamItems() throws Exception {
         mockMvc.perform(get("/flowteam/{id}/{userId}/{active}", 1L, 1L, true))
-                .andExpect(status().is(200));
+                .andExpect(status().is(HttpStatus.OK.value()));
     }
 
 }
