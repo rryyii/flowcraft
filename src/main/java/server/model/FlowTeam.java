@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -22,8 +23,8 @@ public class FlowTeam {
     private String teamDescription;
     private LocalDate dateCreated;
 
-    @OneToMany
-    private List<FlowItem> items;
+    @OneToMany(mappedBy = "team")
+    private List<FlowItem> items = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {

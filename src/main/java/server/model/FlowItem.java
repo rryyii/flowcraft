@@ -29,11 +29,17 @@ public class FlowItem {
     private Instant lastupdatedTimestamp;
 
     @ManyToOne
+    @JoinColumn(name = "team_id")
     private FlowTeam team;
 
     @PrePersist
     protected void onCreate() {
         this.createdTimestamp = Instant.now();
+    }
+
+    @PostUpdate
+    protected void onUpdate() {
+        this.lastupdatedTimestamp = Instant.now();
     }
 
 }

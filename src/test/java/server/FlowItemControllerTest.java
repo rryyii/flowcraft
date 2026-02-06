@@ -15,6 +15,8 @@ import server.dto.FlowPriorityDTO;
 import server.dto.FlowStatusDTO;
 import server.model.FlowItem;
 import server.model.FlowTeam;
+import server.model.Priority;
+import server.model.Status;
 import server.service.FlowItemService;
 
 import java.time.LocalDateTime;
@@ -57,6 +59,8 @@ public class FlowItemControllerTest {
     @Test
     public void changeFlowItemStatus() throws Exception {
         FlowStatusDTO info = new FlowStatusDTO();
+        info.setId(1L);
+        info.setStatus(Status.COMPLETED);
         when(flowitemService.changeFlowItemStatus(any()))
                 .thenReturn(true);
 
@@ -69,6 +73,8 @@ public class FlowItemControllerTest {
     @Test
     public void changeFlowItemPriority() throws Exception {
         FlowPriorityDTO info = new FlowPriorityDTO();
+        info.setId(1L);
+        info.setPriority(Priority.CRITICAL);
         when(flowitemService.changeFlowPriority(any(), eq(1L)))
                 .thenReturn(true);
 

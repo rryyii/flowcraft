@@ -14,7 +14,9 @@ import server.repository.FlowUserRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FlowTeamService {
@@ -34,7 +36,6 @@ public class FlowTeamService {
     public boolean createFlowTeam(FlowTeamCreateDTO details) {
         try {
             FlowUser user = findFlowUser(details.getId());
-            if (user == null) return false;
             if (user.getTitle() == Title.ADMIN || user.getTitle() == Title.MANAGER) {
                 flowTeamRepository.save(flowTeamMapper.toEntity(details));
                 return true;
@@ -49,10 +50,8 @@ public class FlowTeamService {
     public boolean removeFlowUser(Long id, Long userId) {
         try {
             FlowUser user = findFlowUser(userId);
-            if (user == null) return false;
-
             if (user.getTitle() == Title.ADMIN || user.getTitle() == Title.MANAGER) {
-                FlowUser userRemove = flowUserRepository.getReferenceById(id);
+                FlowUser userRemove = findFlowUser(id);
                 userRemove.setMainTeam(null);
                 flowUserRepository.save(userRemove);
                 return true;
@@ -67,8 +66,6 @@ public class FlowTeamService {
     public boolean deleteFlowTeam(Long id, Long userId) {
         try {
             FlowUser user = findFlowUser(userId);
-            if (user == null) return false;
-
             if (user.getTitle() == Title.ADMIN || user.getTitle() == Title.MANAGER) {
                 flowTeamRepository.deleteById(id);
                 return true;
@@ -82,10 +79,8 @@ public class FlowTeamService {
 
     public FlowTeam getFlowTeam(Long id) {
         try {
-            if (flowTeamRepository.findById(id).isPresent()) {
-                return flowTeamRepository.findById(id).get();
-            }
-            return null;
+            Optional<FlowTeam> team = flowTeamRepository.findById(id);
+            return team.orElse(null);
         } catch (Exception e) {
             flowteamLogger.error("Failed to fetch FlowTeam according to Id");
             return null;
@@ -95,24 +90,19 @@ public class FlowTeamService {
     public List<FlowItem> getFlowTeamItems(Long id, Long userId) {
         try {
             FlowUser user = findFlowUser(userId);
-            if (user == null) return null;
-
             if (user.getTitle() == Title.ADMIN || user.getTitle() == Title.MANAGER || user.getTitle() == Title.MEMBER) {
                 return flowTeamRepository.getReferenceById(id).getItems();
             }
             return null;
         } catch (Exception e) {
             flowteamLogger.error("Failed to fetch all FlowTeam's Flowitems");
-            return null;
+            return Collections.emptyList();
         }
     }
 
     private FlowUser findFlowUser(Long id) {
-        if (flowUserRepository.findById(id).isPresent()) {
-            return flowUserRepository.findById(id).get();
-        }
-        return null;
+        Optional<FlowUser> user = flowUserRepository.findById(id);
+        return user.orElse(null);
     }
-
 
 }
