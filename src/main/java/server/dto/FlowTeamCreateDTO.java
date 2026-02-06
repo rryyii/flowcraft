@@ -11,4 +11,5 @@ public class FlowTeamCreateDTO {
 
     @NotBlank(message = "A new Flowteam must have a name")
     private String teamName;
+    private String teamDescription;
 }

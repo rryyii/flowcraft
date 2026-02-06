@@ -10,6 +10,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import server.controller.FlowItemController;
 import server.dto.FlowItemDTO;
+import server.dto.FlowPriorityDTO;
 import server.dto.FlowStatusDTO;
 import server.model.FlowItem;
 import server.model.FlowTeam;
@@ -60,6 +61,18 @@ public class FlowItemControllerTest {
         mockMvc.perform(put("/flowitem")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(info)))
+                .andExpect(status().is(200));
+    }
+
+    @Test
+    public void changeFlowItemPriority() throws Exception {
+        FlowPriorityDTO info = new FlowPriorityDTO();
+        when(flowitemService.changeFlowPriority(any()))
+                .thenReturn(true);
+
+        mockMvc.perform(put("/flowitem/priority")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(info)))
                 .andExpect(status().is(200));
     }
 

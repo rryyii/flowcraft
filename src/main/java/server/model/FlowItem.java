@@ -21,6 +21,7 @@ public class FlowItem {
     private String name;
     private String description;
     private Status status;
+    private Priority priority;
     private LocalDateTime deadline;
     private Instant createdTimestamp;
     private Instant lastupdatedTimestamp;

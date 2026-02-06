@@ -55,6 +55,15 @@ public class FlowTeamControllerTest {
     }
 
     @Test
+    public void removeFlowTeamUser() throws Exception {
+        when(flowteamService.removeFlowUser(1L))
+                .thenReturn(true);
+
+        mockMvc.perform(delete("/flowteam/member/{id}", 1L))
+                .andExpect(status().is(200));
+    }
+
+    @Test
     public void getFlowTeamById() throws Exception {
         FlowTeam team = new FlowTeam();
         team.setId(1L);

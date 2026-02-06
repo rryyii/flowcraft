@@ -4,6 +4,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 import server.dto.FlowItemDTO;
+import server.dto.FlowPriorityDTO;
 import server.dto.FlowStatusDTO;
 import server.mapper.FlowItemMapper;
 import server.model.FlowItem;
@@ -67,6 +68,18 @@ public class FlowItemService {
             };
         } catch (Exception e) {
             flowitemLogger.error("Failed to change FlowItem status");
+            return false;
+        }
+    }
+
+    public boolean changeFlowPriority(FlowPriorityDTO details) {
+        try {
+            FlowItem item = getFlowItem(details.getId());
+            item.setPriority(details.getPriority());
+            flowItemRepository.save(item);
+            return true;
+        } catch (Exception e) {
+            flowitemLogger.error("Failed to change FlowItem's priority");
             return false;
         }
     }

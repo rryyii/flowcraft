@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import server.model.FlowTeam;
+import server.model.Priority;
 import server.model.Status;
 
 import java.time.LocalDateTime;
@@ -21,6 +22,8 @@ public class FlowItemDTO {
     private String description;
 
     private Status status;
+
+    private Priority priority;
 
     @NotNull(message = "Flowitem must have a set deadline")
     private LocalDateTime deadline;

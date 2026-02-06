@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
+import server.model.Title;
 
 @Getter
 @Setter
@@ -17,4 +18,5 @@ public class FlowUserDTO {
 
     private String mainRole;
     private String mainClass;
+    private Title title;
 }

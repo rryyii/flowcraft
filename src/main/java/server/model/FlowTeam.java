@@ -19,6 +19,7 @@ public class FlowTeam {
 
     @Column(nullable = false)
     private String teamName;
+    private String teamDescription;
     private LocalDate dateCreated;
 
     @OneToMany

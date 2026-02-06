@@ -57,6 +57,9 @@ public class FlowUserService {
                 if (!(details.getMainClass() == null)) {
                     user.setMainClass(details.getMainClass());
                 }
+                if(!(details.getTitle() == null)) {
+                    user.setTitle(details.getTitle());
+                }
                 flowuserRepository.save(user);
             }
             return true;

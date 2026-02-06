@@ -7,7 +7,9 @@ import server.dto.FlowTeamCreateDTO;
 import server.mapper.FlowTeamMapper;
 import server.model.FlowItem;
 import server.model.FlowTeam;
+import server.model.FlowUser;
 import server.repository.FlowTeamRepository;
+import server.repository.FlowUserRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,10 +21,13 @@ public class FlowTeamService {
     private static final Logger flowteamLogger = LoggerFactory.getLogger(FlowTeamService.class);
     private final FlowTeamRepository flowTeamRepository;
     private final FlowTeamMapper flowTeamMapper;
+    private final FlowUserRepository flowUserRepository;
 
-    public FlowTeamService(FlowTeamRepository flowTeamRepository, FlowTeamMapper flowTeamMapper) {
+    public FlowTeamService(FlowTeamRepository flowTeamRepository, FlowTeamMapper flowTeamMapper,
+                           FlowUserRepository flowUserRepository) {
         this.flowTeamRepository = flowTeamRepository;
         this.flowTeamMapper = flowTeamMapper;
+        this.flowUserRepository = flowUserRepository;
     }
 
     public boolean createFlowTeam(FlowTeamCreateDTO details) {
@@ -31,6 +36,18 @@ public class FlowTeamService {
             return true;
         } catch (Exception e) {
             flowteamLogger.error("Failed to create a new FlowTeam");
+            return false;
+        }
+    }
+
+    public boolean removeFlowUser(Long userId) {
+        try {
+            FlowUser user = flowUserRepository.getReferenceById(userId);
+            user.setMainTeam(null);
+            flowUserRepository.save(user);
+            return true;
+        } catch (Exception e) {
+            flowteamLogger.error("Failed to remove user from FlowTeam");
             return false;
         }
     }

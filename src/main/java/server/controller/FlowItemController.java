@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Positive;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.dto.FlowItemDTO;
+import server.dto.FlowPriorityDTO;
 import server.dto.FlowStatusDTO;
 import server.model.FlowItem;
 import server.model.Status;
@@ -31,6 +32,14 @@ public class FlowItemController {
     @PutMapping
     public ResponseEntity<String> changeFlowItemStatus(@Valid @RequestBody FlowStatusDTO details) {
         if (flowItemService.changeFlowItemStatus(details)) {
+            return ResponseEntity.status(200).build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @PutMapping("/priority")
+    public ResponseEntity<String> changeFlowItemPriority(@Valid @RequestBody FlowPriorityDTO details) {
+        if (flowItemService.changeFlowPriority(details)) {
             return ResponseEntity.status(200).build();
         }
         return ResponseEntity.badRequest().build();

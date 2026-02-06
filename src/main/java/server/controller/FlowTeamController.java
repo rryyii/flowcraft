@@ -38,6 +38,14 @@ public class FlowTeamController {
         return ResponseEntity.badRequest().build();
     }
 
+    @DeleteMapping("/member/{id}")
+    public ResponseEntity<String> removeFlowUser(@Positive @PathVariable Long id) {
+        if (flowTeamService.removeFlowUser(id)) {
+            return ResponseEntity.status(200).build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<FlowTeam> getFlowTeam(@Positive @PathVariable Long id) {
         FlowTeam team = flowTeamService.getFlowTeam(id);
