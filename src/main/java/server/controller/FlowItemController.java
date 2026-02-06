@@ -37,9 +37,9 @@ public class FlowItemController {
         return ResponseEntity.badRequest().build();
     }
 
-    @PutMapping("/priority")
-    public ResponseEntity<String> changeFlowItemPriority(@Valid @RequestBody FlowPriorityDTO details) {
-        if (flowItemService.changeFlowPriority(details)) {
+    @PutMapping("/priority/{userId}")
+    public ResponseEntity<String> changeFlowItemPriority(@Valid @RequestBody FlowPriorityDTO details, @PathVariable Long userId) {
+        if (flowItemService.changeFlowPriority(details, userId)) {
             return ResponseEntity.status(200).build();
         }
         return ResponseEntity.badRequest().build();
@@ -54,9 +54,9 @@ public class FlowItemController {
         return ResponseEntity.status(404).build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteFlowItem(@Positive @PathVariable Long id) {
-        if (flowItemService.deleteFlowItem(id)) {
+    @DeleteMapping("/{id}/{userId}")
+    public ResponseEntity<String> deleteFlowItem(@Positive @PathVariable Long id, @Positive @PathVariable Long userId) {
+        if (flowItemService.deleteFlowItem(id, userId)) {
             return ResponseEntity.status(200).build();
         }
         return ResponseEntity.badRequest().build();

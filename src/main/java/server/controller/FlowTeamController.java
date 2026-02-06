@@ -30,17 +30,17 @@ public class FlowTeamController {
         return ResponseEntity.badRequest().build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteFlowTeam(@Positive @PathVariable Long id) {
-        if (flowTeamService.deleteFlowTeam(id)) {
+    @DeleteMapping("/{id}/{userId}")
+    public ResponseEntity<String> deleteFlowTeam(@Positive @PathVariable Long id, @Positive @PathVariable Long userId) {
+        if (flowTeamService.deleteFlowTeam(id, userId)) {
             return ResponseEntity.status(200).build();
         }
         return ResponseEntity.badRequest().build();
     }
 
-    @DeleteMapping("/member/{id}")
-    public ResponseEntity<String> removeFlowUser(@Positive @PathVariable Long id) {
-        if (flowTeamService.removeFlowUser(id)) {
+    @DeleteMapping("/member/{id}/{userId}")
+    public ResponseEntity<String> removeFlowUser(@Positive @PathVariable Long id, @Positive @PathVariable Long userId) {
+        if (flowTeamService.removeFlowUser(id, userId)) {
             return ResponseEntity.status(200).build();
         }
         return ResponseEntity.badRequest().build();
@@ -55,10 +55,10 @@ public class FlowTeamController {
         return ResponseEntity.status(404).build();
     }
 
-    @GetMapping("/{id}/{active}")
-    public ResponseEntity<List<FlowItem>> getFlowTeamItems(@PathVariable boolean active, @Positive @PathVariable Long id) {
+    @GetMapping("/{id}/{userId}{active}")
+    public ResponseEntity<List<FlowItem>> getFlowTeamItems(@PathVariable boolean active, @Positive @PathVariable Long id, @PathVariable Long userId) {
         if (active) {
-            List<FlowItem> items = flowTeamService.getFlowTeamItems(id);
+            List<FlowItem> items = flowTeamService.getFlowTeamItems(id, userId);
             return ResponseEntity.status(200).body(items);
         }
         return ResponseEntity.status(404).build();

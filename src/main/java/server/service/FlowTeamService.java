@@ -8,6 +8,7 @@ import server.mapper.FlowTeamMapper;
 import server.model.FlowItem;
 import server.model.FlowTeam;
 import server.model.FlowUser;
+import server.model.Title;
 import server.repository.FlowTeamRepository;
 import server.repository.FlowUserRepository;
 
@@ -32,30 +33,42 @@ public class FlowTeamService {
 
     public boolean createFlowTeam(FlowTeamCreateDTO details) {
         try {
-            flowTeamRepository.save(flowTeamMapper.toEntity(details));
-            return true;
+            FlowUser user = flowUserRepository.getReferenceById(details.getId());
+            if (user.getTitle() == Title.MANAGER || user.getTitle() == Title.ADMIN) {
+                flowTeamRepository.save(flowTeamMapper.toEntity(details));
+                return true;
+            }
+            return false;
         } catch (Exception e) {
             flowteamLogger.error("Failed to create a new FlowTeam");
             return false;
         }
     }
 
-    public boolean removeFlowUser(Long userId) {
+    public boolean removeFlowUser(Long id, Long userId) {
         try {
-            FlowUser user = flowUserRepository.getReferenceById(userId);
-            user.setMainTeam(null);
-            flowUserRepository.save(user);
-            return true;
+            FlowUser sender = flowUserRepository.getReferenceById(userId);
+            if (sender.getTitle() == Title.ADMIN || sender.getTitle() == Title.MANAGER) {
+                FlowUser user = flowUserRepository.getReferenceById(id);
+                user.setMainTeam(null);
+                flowUserRepository.save(user);
+                return true;
+            }
+            return false;
         } catch (Exception e) {
             flowteamLogger.error("Failed to remove user from FlowTeam");
             return false;
         }
     }
 
-    public boolean deleteFlowTeam(Long id) {
+    public boolean deleteFlowTeam(Long id, Long userId) {
         try {
-            flowTeamRepository.deleteById(id);
-            return true;
+            FlowUser user = flowUserRepository.getReferenceById(userId);
+            if (user.getTitle() == Title.ADMIN || user.getTitle() == Title.MANAGER) {
+                flowTeamRepository.deleteById(id);
+                return true;
+            }
+            return false;
         } catch (Exception e) {
             flowteamLogger.error("Failed to delete FlowTeam");
             return false;
@@ -71,9 +84,13 @@ public class FlowTeamService {
         }
     }
 
-    public List<FlowItem> getFlowTeamItems(Long id) {
+    public List<FlowItem> getFlowTeamItems(Long id, Long userId) {
         try {
-            return flowTeamRepository.getReferenceById(id).getItems();
+            FlowUser user = flowUserRepository.getReferenceById(userId);
+            if (user.getTitle() == Title.ADMIN || user.getTitle() == Title.MANAGER || user.getTitle() == Title.MEMBER) {
+                return flowTeamRepository.getReferenceById(id).getItems();
+            }
+            return null;
         } catch (Exception e) {
             flowteamLogger.error("Failed to fetch all FlowTeam's Flowitems");
             return null;

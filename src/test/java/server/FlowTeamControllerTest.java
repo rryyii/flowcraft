@@ -47,19 +47,19 @@ public class FlowTeamControllerTest {
 
     @Test
     public void deleteFlowTeamById() throws Exception {
-        when(flowteamService.deleteFlowTeam(1L))
+        when(flowteamService.deleteFlowTeam(1L, 1L))
                 .thenReturn(true);
 
-        mockMvc.perform(delete("/flowteam/{id}", 1L))
+        mockMvc.perform(delete("/flowteam/{id}/{userId}", 1L, 1L))
                 .andExpect(status().is(200));
     }
 
     @Test
     public void removeFlowTeamUser() throws Exception {
-        when(flowteamService.removeFlowUser(1L))
+        when(flowteamService.removeFlowUser(1L, 1L))
                 .thenReturn(true);
 
-        mockMvc.perform(delete("/flowteam/member/{id}", 1L))
+        mockMvc.perform(delete("/flowteam/member/{id}/{userId}", 1L, 1L))
                 .andExpect(status().is(200));
     }
 
@@ -71,7 +71,7 @@ public class FlowTeamControllerTest {
         when(flowteamService.getFlowTeam(1L))
                 .thenReturn(team);
 
-        mockMvc.perform(get("/flowteam/{id}/{activate}", 1L, true))
+        mockMvc.perform(get("/flowteam/{id}", 1L, true))
                 .andExpect(status().is(200));
     }
 

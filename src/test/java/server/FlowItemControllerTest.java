@@ -19,6 +19,7 @@ import server.service.FlowItemService;
 import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -67,10 +68,10 @@ public class FlowItemControllerTest {
     @Test
     public void changeFlowItemPriority() throws Exception {
         FlowPriorityDTO info = new FlowPriorityDTO();
-        when(flowitemService.changeFlowPriority(any()))
+        when(flowitemService.changeFlowPriority(any(), eq(1L)))
                 .thenReturn(true);
 
-        mockMvc.perform(put("/flowitem/priority")
+        mockMvc.perform(put("/flowitem/priority/{userId}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(info)))
                 .andExpect(status().is(200));
@@ -79,10 +80,10 @@ public class FlowItemControllerTest {
 
     @Test
     public void deleteFlowItemById() throws Exception {
-        when(flowitemService.deleteFlowItem(1L))
+        when(flowitemService.deleteFlowItem(1L, 1L))
                 .thenReturn(true);
 
-        mockMvc.perform(delete("/flowitem/{id}", 1L))
+        mockMvc.perform(delete("/flowitem/{id}/{userId}", 1L, 1L))
                 .andExpect(status().is(200));
     }
 

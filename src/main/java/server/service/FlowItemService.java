@@ -8,8 +8,11 @@ import server.dto.FlowPriorityDTO;
 import server.dto.FlowStatusDTO;
 import server.mapper.FlowItemMapper;
 import server.model.FlowItem;
+import server.model.FlowUser;
 import server.model.Status;
+import server.model.Title;
 import server.repository.FlowItemRepository;
+import server.repository.FlowUserRepository;
 
 
 @Service
@@ -18,10 +21,13 @@ public class FlowItemService {
     private static final Logger flowitemLogger = LoggerFactory.getLogger(FlowItemService.class);
     private final FlowItemRepository flowItemRepository;
     private final FlowItemMapper flowItemMapper;
+    private final FlowUserRepository flowUserRepository;
 
-    public FlowItemService(FlowItemRepository flowItemRepository, FlowItemMapper flowItemMapper) {
+    public FlowItemService(FlowItemRepository flowItemRepository, FlowItemMapper flowItemMapper,
+                           FlowUserRepository flowUserRepository) {
         this.flowItemRepository = flowItemRepository;
         this.flowItemMapper = flowItemMapper;
+        this.flowUserRepository = flowUserRepository;
     }
 
     public boolean createFlowItem(FlowItemDTO details) {
@@ -35,10 +41,14 @@ public class FlowItemService {
         }
     }
 
-    public boolean deleteFlowItem(Long id) {
+    public boolean deleteFlowItem(Long id, Long userId) {
         try {
-            flowItemRepository.deleteById(id);
-            return true;
+            FlowUser user = flowUserRepository.getReferenceById(userId);
+            if (user.getTitle() == Title.MANAGER || user.getTitle() == Title.ADMIN) {
+                flowItemRepository.deleteById(id);
+                return true;
+            }
+            return false;
         } catch (Exception e) {
             flowitemLogger.error("Failed to delete FlowItem at given Id");
             return false;
@@ -72,12 +82,16 @@ public class FlowItemService {
         }
     }
 
-    public boolean changeFlowPriority(FlowPriorityDTO details) {
+    public boolean changeFlowPriority(FlowPriorityDTO details, Long userId) {
         try {
-            FlowItem item = getFlowItem(details.getId());
-            item.setPriority(details.getPriority());
-            flowItemRepository.save(item);
-            return true;
+            FlowUser user = flowUserRepository.getReferenceById(userId);
+            if (user.getTitle() == Title.MANAGER || user.getTitle() == Title.ADMIN) {
+                FlowItem item = getFlowItem(details.getId());
+                item.setPriority(details.getPriority());
+                flowItemRepository.save(item);
+                return true;
+            }
+          return false;
         } catch (Exception e) {
             flowitemLogger.error("Failed to change FlowItem's priority");
             return false;
