@@ -20,7 +20,9 @@ public class FlowItem {
     @Column(nullable = false)
     private String name;
     private String description;
+    @Enumerated(value = EnumType.STRING)
     private Status status;
+    @Enumerated(value = EnumType.ORDINAL)
     private Priority priority;
     private LocalDateTime deadline;
     private Instant createdTimestamp;

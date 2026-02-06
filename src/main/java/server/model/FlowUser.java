@@ -23,6 +23,7 @@ public class FlowUser {
     private LocalDate dateJoined;
     private String mainRole;
     private String mainClass;
+    @Enumerated(value = EnumType.ORDINAL)
     private Title title;
 
     @ManyToOne
