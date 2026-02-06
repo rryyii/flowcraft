@@ -55,7 +55,7 @@ public class FlowTeamController {
         return ResponseEntity.status(404).build();
     }
 
-    @GetMapping("/{id}/{userId}{active}")
+    @GetMapping("/{id}/{userId}/{active}")
     public ResponseEntity<List<FlowItem>> getFlowTeamItems(@PathVariable boolean active, @Positive @PathVariable Long id, @PathVariable Long userId) {
         if (active) {
             List<FlowItem> items = flowTeamService.getFlowTeamItems(id, userId);

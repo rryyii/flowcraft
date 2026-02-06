@@ -75,4 +75,10 @@ public class FlowTeamControllerTest {
                 .andExpect(status().is(200));
     }
 
+    @Test
+    public void getFlowTeamItems() throws Exception {
+        mockMvc.perform(get("/flowteam/{id}/{userId}/{active}", 1L, 1L, true))
+                .andExpect(status().is(200));
+    }
+
 }
