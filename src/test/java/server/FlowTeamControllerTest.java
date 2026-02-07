@@ -39,6 +39,7 @@ public class FlowTeamControllerTest {
     public void createFlowTeam() throws Exception {
         FlowTeamCreateDTO details = new FlowTeamCreateDTO();
         details.setTeamName("Test Team");
+        details.setId(1L);
 
         when(flowteamService.createFlowTeam(any()))
                 .thenReturn(true);

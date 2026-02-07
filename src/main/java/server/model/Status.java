@@ -7,7 +7,8 @@ public enum Status {
     IN_PROGRESS("In Progress"),
     COMPLETED("Completed"),
     CANCELLED("Cancelled"),
-    NEW("New");
+    NEW("New"),
+    ERROR("Error");
 
     private String description;
 

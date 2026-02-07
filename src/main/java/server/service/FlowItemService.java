@@ -14,11 +14,9 @@ import server.model.Title;
 import server.repository.FlowItemRepository;
 import server.repository.FlowUserRepository;
 
-/**
- * Service responsible for managing FlowItem functionalities.
- *
- * Handles creation, updating, deletion, and fetching of FlowItems
- */
+import java.util.Optional;
+
+
 @Service
 public class FlowItemService {
 
@@ -48,8 +46,6 @@ public class FlowItemService {
     public boolean deleteFlowItem(Long id, Long userId) {
         try {
             FlowUser user = findFlowUser(userId);
-            if (user == null) return false;
-
             if (user.getTitle() == Title.MANAGER || user.getTitle() == Title.ADMIN) {
                 flowItemRepository.deleteById(id);
                 return true;
@@ -91,7 +87,6 @@ public class FlowItemService {
     public boolean changeFlowPriority(FlowPriorityDTO details, Long userId) {
         try {
             FlowUser user = findFlowUser(userId);
-            if (user == null) return false;
 
             if (user.getTitle() == Title.MANAGER || user.getTitle() == Title.ADMIN) {
                 FlowItem item = getFlowItem(details.getId());
@@ -108,10 +103,8 @@ public class FlowItemService {
 
     public FlowItem getFlowItem(Long id) {
         try {
-            if (flowItemRepository.findById(id).isPresent()) {
-                return flowItemRepository.findById(id).get();
-            }
-            return null;
+            Optional<FlowItem> item = flowItemRepository.findById(id);
+            return item.orElse(null);
         } catch (Exception e) {
             flowitemLogger.error("Failed to get FlowItem at given Id");
             return null;
@@ -125,14 +118,12 @@ public class FlowItemService {
         if (current == Status.NEW) {
             return Status.IN_PROGRESS;
         }
-        return null;
+        return Status.ERROR;
     }
 
     private FlowUser findFlowUser(Long id) {
-        if (flowUserRepository.findById(id).isPresent()) {
-            return flowUserRepository.findById(id).get();
-        }
-        return null;
+        Optional<FlowUser> user = flowUserRepository.findById(id);
+        return user.orElse(null);
     }
 
 
