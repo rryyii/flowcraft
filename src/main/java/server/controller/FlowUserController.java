@@ -32,7 +32,11 @@ public class FlowUserController {
         this.flowuserService = flowuserService;
     }
 
-
+    /**
+     * Creates a new Flowuser if sent a valid request.
+     * @param newUser DTO containing information for the new user to be created
+     * @return ResponseEntity containing the relevant status code (200 or 400)
+     */
     @PostMapping
     public ResponseEntity<String> createFlowuser(@Valid @RequestBody FlowUserDTO newUser) {
         if (flowuserService.createFlowuser(newUser)) {
@@ -41,6 +45,11 @@ public class FlowUserController {
         return ResponseEntity.badRequest().body("Failed to create FlowUser");
     }
 
+    /**
+     * Deletes a FlowUser from the database given an existing user's id.
+     * @param id Long value for the user's id to delete
+     * @return ResponseEntity containing the relevant status code (200 or 404)
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteFlowuser(@Positive @PathVariable Long id) {
         if (flowuserService.deleteFlowuser(id)) {
@@ -49,6 +58,12 @@ public class FlowUserController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
+    /**
+     * Updates a FlowUser according to the request's non-null properties.
+     * @param id Long value for the user's id to update information
+     * @param details DTO containing relevant details to be updated
+     * @return ResponseEntity containing the relevant status code (200 or 400)
+     */
     @PutMapping("/{id}")
     public ResponseEntity<String> updateFlowuser(@Positive @PathVariable Long id,
                                                  @NotNull @RequestBody FlowUserUpdateDTO details) {
@@ -58,6 +73,10 @@ public class FlowUserController {
         return ResponseEntity.badRequest().build();
     }
 
+    /**
+     * Retrieves all existing FlowUsers in the system.
+     * @return ResponseEntity contaning the relevant status code (200 or 404) and a Collection of FlowUsers
+     */
     @GetMapping
     public ResponseEntity<List<FlowUser>> getFlowusers() {
         List<FlowUser> users = flowuserService.getFlowusers();

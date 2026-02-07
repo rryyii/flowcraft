@@ -15,6 +15,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service responsible for managing FlowUser functionalities.
+ *
+ * Handles creation, updating, deletion, and fetching of FlowUsers
+ */
 @Service
 public class FlowUserService {
 

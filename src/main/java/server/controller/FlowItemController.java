@@ -28,6 +28,11 @@ public class FlowItemController {
         this.flowItemService = flowItemService;
     }
 
+    /**
+     * Creates a new FlowItem according to a valid request.
+     * @param details DTO for relevant data for a new FlowItem
+     * @return A ResponseEntity containing the relevant status code (200 or 400)
+     */
     @PostMapping
     public ResponseEntity<String> createFlowItem(@Valid @RequestBody FlowItemDTO details) {
         if (flowItemService.createFlowItem(details)) {
@@ -36,6 +41,11 @@ public class FlowItemController {
         return ResponseEntity.badRequest().build();
     }
 
+    /**
+     * Changes the FlowItem's current status given a valid request.
+     * @param details DTO for relevant data for a FlowItem's new status
+     * @return A ResponseEntity containing the relevant status code (200 or 400)
+     */
     @PutMapping
     public ResponseEntity<String> changeFlowItemStatus(@Valid @RequestBody FlowStatusDTO details) {
         if (flowItemService.changeFlowItemStatus(details)) {
@@ -44,6 +54,11 @@ public class FlowItemController {
         return ResponseEntity.badRequest().build();
     }
 
+    /**
+     * Changes the FlowItem's current priority given a valid request.
+     * @param details DTO for relevant data for a FlowItem's priority
+     * @return A ResponseEntity containing the relevant status code (200 or 400)
+     */
     @PutMapping("/priority/{userId}")
     public ResponseEntity<String> changeFlowItemPriority(@Valid @RequestBody FlowPriorityDTO details,
                                                          @PathVariable Long userId) {
@@ -53,6 +68,11 @@ public class FlowItemController {
         return ResponseEntity.badRequest().build();
     }
 
+    /**
+     * Retrieves a FlowItem, if present in the database, given a valid id.
+     * @param id Long value for a presumably existing FlowItem
+     * @return ResponseEntity with relevant status code (200 or 404) and the FlowItem
+     */
     @GetMapping("/{id}")
     public ResponseEntity<FlowItem> getFlowItem(@Positive @PathVariable Long id) {
         FlowItem item = flowItemService.getFlowItem(id);
@@ -62,6 +82,12 @@ public class FlowItemController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
+    /**
+     * Deletes a FlowItem, if present, given a valid FlowItem id.
+     * @param id Long value for an exisiting FlowItem
+     * @param userId Long value for the requesting user's id
+     * @return ResponseEntity with relevant status code (200 or 400)
+     */
     @DeleteMapping("/{id}/{userId}")
     public ResponseEntity<String> deleteFlowItem(@Positive @PathVariable Long id,
                                                  @Positive @PathVariable Long userId) {
