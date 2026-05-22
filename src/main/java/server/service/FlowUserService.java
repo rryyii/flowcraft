@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import server.dto.FlowUserDTO;
 import server.dto.FlowUserUpdateDTO;
 import server.mapper.FlowUserMapper;
+import server.model.FlowTeam;
 import server.model.FlowUser;
 import server.repository.FlowUserRepository;
 
@@ -83,6 +84,18 @@ public class FlowUserService {
         } catch (Exception e) {
             flowuserLogger.error("Failed to retrieve all Flowusers");
             return Collections.emptyList();
+        }
+    }
+
+    public List<FlowTeam> getUserTeams(Long id) {
+        try {
+            Optional<FlowUser> user = flowuserRepository.findById(id);
+            if (user.isPresent()) {
+                return user.get().getTeams();
+            }
+            return Collections.emptyList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

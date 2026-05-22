@@ -14,6 +14,8 @@ import server.dto.FlowUserDTO;
 import server.dto.FlowUserUpdateDTO;
 import server.service.FlowUserService;
 
+import java.util.ArrayList;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -95,6 +97,14 @@ public class FlowUserControllerTest {
     @Test
     void getFlowusers() throws Exception {
         mockMvc.perform(get("/flowuser"))
+                .andExpect(status().is(HttpStatus.OK.value()));
+    }
+
+    @Test
+    void getUsersTeams() throws Exception {
+        when(flowuserService.getUserTeams(1L))
+                .thenReturn(new ArrayList<>());
+        mockMvc.perform(get("/flowuser/{id}/teams", 1L))
                 .andExpect(status().is(HttpStatus.OK.value()));
     }
 

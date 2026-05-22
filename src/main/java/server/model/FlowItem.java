@@ -30,10 +30,16 @@ public class FlowItem {
     private LocalDateTime deadline;
     private Instant createdTimestamp;
     private Instant lastupdatedTimestamp;
+    @Enumerated(value = EnumType.STRING)
+    private Type type;
 
     @ManyToOne
-    @JoinColumn(name = "team_id")
+    @JoinColumn(name="team_id")
     private FlowTeam team;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private FlowUser owner;
 
     @PrePersist
     protected void onCreate() {

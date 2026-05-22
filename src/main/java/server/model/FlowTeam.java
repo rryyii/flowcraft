@@ -26,6 +26,14 @@ public class FlowTeam {
     private String teamDescription;
     private LocalDate dateCreated;
 
+    @ManyToMany
+    @JoinTable(
+            name="team_members",
+            joinColumns = @JoinColumn(name="team_id"),
+            inverseJoinColumns = @JoinColumn(name="user_id")
+    )
+    private List<FlowUser> users = new ArrayList<>();
+
     @OneToMany(mappedBy = "team")
     private List<FlowItem> items = new ArrayList<>();
 

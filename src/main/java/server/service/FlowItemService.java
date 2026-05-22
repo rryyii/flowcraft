@@ -4,6 +4,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 import server.dto.FlowItemDTO;
+import server.dto.FlowItemUpdateDTO;
 import server.dto.FlowPriorityDTO;
 import server.dto.FlowStatusDTO;
 import server.mapper.FlowItemMapper;
@@ -14,6 +15,8 @@ import server.model.Title;
 import server.repository.FlowItemRepository;
 import server.repository.FlowUserRepository;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -63,25 +66,23 @@ public class FlowItemService {
 
     public boolean changeFlowItemStatus(FlowStatusDTO details) {
         try {
+            FlowUser user = findFlowUser(details.getUserId());
+            if (user.getTitle() != Title.ADMIN && user.getTitle() != Title.MANAGER) {
+                return false;
+            }
             FlowItem item = getFlowItem(details.getId());
-            return switch (details.getStatus()) {
-                case NEW -> {
-                    item.setStatus(handleStatus(Status.NEW));
-                    flowItemRepository.save(item);
-                    yield true;
-                }
-                case IN_PROGRESS -> {
-                    item.setStatus(handleStatus(Status.IN_PROGRESS));
-                    flowItemRepository.save(item);
-                    yield true;
-                }
-                case CANCELLED -> {
-                    item.setStatus(Status.CANCELLED);
-                    flowItemRepository.save(item);
-                    yield true;
-                }
-                default -> false;
-            };
+            Status requiredStatus = handleStatus(item.getStatus());
+            if (details.getStatus() == Status.CANCELLED) {
+                item.setStatus(Status.CANCELLED);
+                flowItemRepository.save(item);
+                return true;
+            }
+            if (requiredStatus == details.getStatus()) {
+                item.setStatus(requiredStatus);
+                flowItemRepository.save(item);
+                return true;
+            }
+            return false;
         } catch (Exception e) {
             flowitemLogger.error("Failed to change FlowItem status");
             return false;
@@ -112,6 +113,32 @@ public class FlowItemService {
         } catch (Exception e) {
             flowitemLogger.error("Failed to get FlowItem at given Id");
             return null;
+        }
+    }
+
+    public boolean assignOwner(FlowItemUpdateDTO details) {
+        try {
+            FlowUser requester = findFlowUser(details.getRequesterId());
+            if (requester.getTitle() == Title.MANAGER || requester.getTitle() == Title.ADMIN) {
+                FlowUser user = findFlowUser(details.getUserId());
+                Optional<FlowItem> item = flowItemRepository.findById(details.getId());
+                assert(item.isPresent());
+                item.get().setOwner(user);
+                flowItemRepository.save(item.get());
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            flowitemLogger.error("Failed to assign a new owner to the item");
+            return false;
+        }
+    }
+
+    public List<FlowItem> getItemsByOwner(Long id) {
+        try {
+            return flowItemRepository.findItemsByOwnerId(id);
+        } catch (Exception e) {
+            return Collections.emptyList();
         }
     }
 

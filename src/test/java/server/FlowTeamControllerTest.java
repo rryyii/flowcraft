@@ -61,7 +61,7 @@ public class FlowTeamControllerTest {
 
     @Test
     public void removeFlowTeamUser() throws Exception {
-        when(flowteamService.removeFlowUser(1L, 1L))
+        when(flowteamService.removeFlowUser(1L, 1L, 1L))
                 .thenReturn(true);
 
         mockMvc.perform(delete("/flowteam/member/{id}/{userId}", 1L, 1L))
@@ -86,4 +86,13 @@ public class FlowTeamControllerTest {
                 .andExpect(status().is(HttpStatus.OK.value()));
     }
 
+    @Test
+    public void addFlowUserToTeam() throws Exception {
+        FlowTeam team = new FlowTeam();
+        team.setId(1L);
+        when(flowteamService.addFlowUser(1L, 1L, 1L))
+                .thenReturn(true);
+        mockMvc.perform(post("/flowteam/{id}/{userId}/{requesterId}", 1L, 1L, 1L))
+                .andExpect(status().is(HttpStatus.OK.value()));
+    }
 }

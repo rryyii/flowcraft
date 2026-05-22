@@ -11,6 +11,7 @@ import server.model.Status;
 public class FlowStatusDTO {
     @NotNull(message = "Must provide an id when changing a FlowItem's status")
     private Long id;
+    private Long userId;
     @NotNull(message = "Must provide a new status")
     private Status status;
 }

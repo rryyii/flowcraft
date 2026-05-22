@@ -53,13 +53,17 @@ public class FlowTeamService {
         }
     }
 
-    public boolean removeFlowUser(Long id, Long userId) {
+    public boolean removeFlowUser(Long teamId, Long userId, Long requestId) {
         try {
-            FlowUser user = findFlowUser(userId);
-            if (user.getTitle() == Title.ADMIN || user.getTitle() == Title.MANAGER) {
-                FlowUser userRemove = findFlowUser(id);
-                userRemove.setMainTeam(null);
-                flowUserRepository.save(userRemove);
+            FlowUser requester = findFlowUser(requestId);
+            if (requester.getTitle() == Title.ADMIN || requester.getTitle() == Title.MANAGER) {
+                FlowUser userRemove = findFlowUser(userId);
+                Optional<FlowTeam> team = flowTeamRepository.findById(teamId);
+                if (team.isEmpty()) {
+                    return false;
+                }
+                team.get().getUsers().remove(userRemove);
+                flowTeamRepository.save(team.get());
                 return true;
             }
             return false;
@@ -90,6 +94,26 @@ public class FlowTeamService {
         } catch (Exception e) {
             flowteamLogger.error("Failed to fetch FlowTeam according to Id");
             return null;
+        }
+    }
+
+    public boolean addFlowUser(Long id, Long userId, Long requesterId) {
+        try {
+            FlowUser user = findFlowUser(userId);
+            FlowUser requester = findFlowUser(requesterId);
+            if (requester.getTitle() == Title.ADMIN || requester.getTitle() == Title.MANAGER) {
+                Optional<FlowTeam> team = flowTeamRepository.findById(id);
+                if (team.isEmpty()) {
+                    return false;
+                }
+                team.get().getUsers().add(user);
+                flowTeamRepository.save(team.get());
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            flowteamLogger.error("Failed to add new FlowUser to team");
+            return false;
         }
     }
 

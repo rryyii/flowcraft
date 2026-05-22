@@ -6,11 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.dto.FlowItemDTO;
+import server.dto.FlowItemUpdateDTO;
 import server.dto.FlowPriorityDTO;
 import server.dto.FlowStatusDTO;
 import server.model.FlowItem;
 import server.model.Status;
 import server.service.FlowItemService;
+
+import java.util.List;
 
 /**
  * Controller responsible for mapping endpoints for FlowItems.
@@ -38,7 +41,7 @@ public class FlowItemController {
         if (flowItemService.createFlowItem(details)) {
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     /**
@@ -51,7 +54,7 @@ public class FlowItemController {
         if (flowItemService.changeFlowItemStatus(details)) {
             return ResponseEntity.status(HttpStatus.OK).build();
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     /**
@@ -65,7 +68,7 @@ public class FlowItemController {
         if (flowItemService.changeFlowPriority(details, userId)) {
             return ResponseEntity.status(HttpStatus.OK).build();
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     /**
@@ -94,7 +97,20 @@ public class FlowItemController {
         if (flowItemService.deleteFlowItem(id, userId)) {
             return ResponseEntity.status(HttpStatus.OK).build();
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    @PatchMapping
+    public ResponseEntity<String> assignOwner(@RequestBody FlowItemUpdateDTO details) {
+        if (flowItemService.assignOwner(details)) {
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    @GetMapping("/{id}/items")
+    public ResponseEntity<List<FlowItem>> getItemsByOwner(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(flowItemService.getItemsByOwner(id));
     }
 
 

@@ -11,15 +11,14 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import server.controller.FlowItemController;
 import server.dto.FlowItemDTO;
+import server.dto.FlowItemUpdateDTO;
 import server.dto.FlowPriorityDTO;
 import server.dto.FlowStatusDTO;
-import server.model.FlowItem;
-import server.model.FlowTeam;
-import server.model.Priority;
-import server.model.Status;
+import server.model.*;
 import server.service.FlowItemService;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -106,6 +105,29 @@ public class FlowItemControllerTest {
                 .thenReturn(item);
 
         mockMvc.perform(get("/flowitem/{id}", 1L))
+                .andExpect(status().is(HttpStatus.OK.value()));
+    }
+
+    @Test
+    public void changeOwner() throws Exception {
+        FlowItemUpdateDTO info = new FlowItemUpdateDTO();
+        info.setId(1L);
+        info.setUserId(1L);
+        info.setRequesterId(2L);
+
+        when(flowitemService.assignOwner(info))
+                .thenReturn(true);
+
+        mockMvc.perform(patch("/flowitem"))
+                .andExpect(status().is(HttpStatus.OK.value()));
+    }
+
+    @Test
+    public void getItemsByOwner() throws Exception {
+        when (flowitemService.getItemsByOwner(1L))
+                .thenReturn(new ArrayList<>());
+
+        mockMvc.perform(get("/flowitem/{id}/items", 1L))
                 .andExpect(status().is(HttpStatus.OK.value()));
     }
 

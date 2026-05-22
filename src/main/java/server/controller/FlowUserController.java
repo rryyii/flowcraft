@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.dto.FlowUserDTO;
 import server.dto.FlowUserUpdateDTO;
+import server.model.FlowTeam;
 import server.model.FlowUser;
 import server.service.FlowUserService;
 
@@ -84,6 +85,11 @@ public class FlowUserController {
             return ResponseEntity.status(HttpStatus.OK).body(users);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    @GetMapping("/{id}/teams")
+    public ResponseEntity<List<FlowTeam>> getUserTeams(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(flowuserService.getUserTeams(id));
     }
 
 }

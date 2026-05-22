@@ -39,7 +39,7 @@ public class FlowTeamController {
         if (flowTeamService.createFlowTeam(details)) {
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     /**
@@ -54,22 +54,23 @@ public class FlowTeamController {
         if (flowTeamService.deleteFlowTeam(id, userId)) {
             return ResponseEntity.status(HttpStatus.OK).build();
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     /**
      * Removes an existing user from a FlowTeam given valid ids.
-     * @param id Long value for the id of the FlowTeam
+     * @param teamId Long value for the id of the FlowTeam
      * @param userId Long value for the requesting user's id.
      * @return ResponseEntity with relevant status code (200 or 400)
      */
     @DeleteMapping("/member/{id}/{userId}")
-    public ResponseEntity<String> removeFlowUser(@Positive @PathVariable Long id,
+    public ResponseEntity<String> removeFlowUser(@Positive @PathVariable Long teamId,
+                                                 @Positive @PathVariable Long requestId,
                                                  @Positive @PathVariable Long userId) {
-        if (flowTeamService.removeFlowUser(id, userId)) {
+        if (flowTeamService.removeFlowUser(teamId, userId, requestId)) {
             return ResponseEntity.status(HttpStatus.OK).build();
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     /**
@@ -100,6 +101,14 @@ public class FlowTeamController {
         if (active) {
             List<FlowItem> items = flowTeamService.getFlowTeamItems(id, userId);
             return ResponseEntity.status(HttpStatus.OK).body(items);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    @PostMapping("/{id}/{userId}/{requestId}")
+    public ResponseEntity<String> addFlowUser(@Positive @PathVariable Long id, @Positive @PathVariable Long userId, @PathVariable Long requesterId) {
+        if (flowTeamService.addFlowUser(id, userId, requesterId)) {
+            return ResponseEntity.status(HttpStatus.OK).build();
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }

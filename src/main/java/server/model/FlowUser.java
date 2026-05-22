@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,8 +30,8 @@ public class FlowUser {
     @Enumerated(value = EnumType.ORDINAL)
     private Title title;
 
-    @ManyToOne
-    private FlowTeam mainTeam;
+    @ManyToMany(mappedBy = "users")
+    private List<FlowTeam> teams = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {

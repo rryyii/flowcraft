@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import server.model.FlowTeam;
+import server.model.FlowUser;
 import server.model.Priority;
 import server.model.Status;
 
